@@ -403,10 +403,10 @@ export async function resolveTenantContext(
   let identifier = detectTenantIdentifier(request);
   let data = await resolveTenantData(env, identifier);
 
-  // If no tenant matched, fallback to default seed firm (contagram)
+  // If no tenant matched, fallback to default seed firm (valenzuela)
   if (!data) {
-    identifier = { slug: 'contagram', customDomain: null, resolvedBy: 'default' };
-    data = (await resolveTenantData(env, identifier)) ?? DEFAULT_SEED_FIRMS.contagram;
+    identifier = { slug: 'valenzuela', customDomain: null, resolvedBy: 'default' };
+    data = (await resolveTenantData(env, identifier)) ?? DEFAULT_SEED_FIRMS.valenzuela;
   }
 
   if (!data) {

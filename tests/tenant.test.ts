@@ -271,5 +271,32 @@ describe('AUREUS Multi-Tenant Architecture', () => {
       expect(json.branding.tokens.sealPorphyry).toBe('#8B4A5A'); // púrpura porfídica
       expect(json.branding.tokens.accentForeground).toBe('#14110D'); // WCAG AAA
     });
+
+    it('debe resolver tenant valenzuela por defecto sin contaminar la landing principal', async () => {
+      const mockEnv = {
+        DB: {
+          prepare: vi.fn(() => ({
+            bind: vi.fn(() => ({
+              first: vi.fn(async () => null),
+              all: vi.fn(async () => ({ results: [] })),
+            })),
+          })),
+        },
+        CACHE: {
+          get: vi.fn(async () => null),
+          put: vi.fn(async () => {}),
+        },
+        SITE_NAME: 'Ark Legaltech',
+      } as unknown as Env;
+
+      const req = new Request('https://legal.arksystems.site/api/tenant/current');
+      const res = await app.fetch(req, mockEnv);
+
+      expect(res.status).toBe(200);
+      const json = await res.json() as { firm: Firm; branding: { mode: string; tokens: { bgPrimary: string; accent500: string } } };
+      expect(json.firm.slug).toBe('valenzuela');
+      expect(json.branding.tokens.bgPrimary).toBe('#100F0D'); // Basalto canónico
+      expect(json.branding.tokens.accent500).toBe('#C9A664'); // Bronce / Oro
+    });
   });
 });
