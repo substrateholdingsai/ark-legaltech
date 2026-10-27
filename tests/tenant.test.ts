@@ -237,10 +237,39 @@ describe('AUREUS Multi-Tenant Architecture', () => {
       const res = await app.fetch(req, mockEnv);
 
       expect(res.status).toBe(200);
-      const json = await res.json() as { firm: Firm; branding: { mode: string; tokens: { bgPrimary: string } } };
+      const json = await res.json() as { firm: Firm; branding: { mode: string; tokens: { bgPrimary: string; accent500: string } } };
       expect(json.firm.slug).toBe('contagram');
       expect(json.branding.mode).toBe('nox');
       expect(json.branding.tokens.bgPrimary).toBe('#040F1D');
+    });
+
+    it('debe resolver tenant vigil con tokens signal-lucerna y púrpura porfídica', async () => {
+      const mockEnv = {
+        DB: {
+          prepare: vi.fn(() => ({
+            bind: vi.fn(() => ({
+              first: vi.fn(async () => null),
+              all: vi.fn(async () => ({ results: [] })),
+            })),
+          })),
+        },
+        CACHE: {
+          get: vi.fn(async () => null),
+          put: vi.fn(async () => {}),
+        },
+        SITE_NAME: 'Ark Legaltech',
+      } as unknown as Env;
+
+      const req = new Request('https://legal.arksystems.site/api/tenant/current?firm=vigil');
+      const res = await app.fetch(req, mockEnv);
+
+      expect(res.status).toBe(200);
+      const json = await res.json() as { firm: Firm; branding: { mode: string; tokens: { bgPrimary: string; accent500: string; sealPorphyry: string; accentForeground: string } } };
+      expect(json.firm.slug).toBe('vigil');
+      expect(json.branding.tokens.bgPrimary).toBe('#0F0D0A');
+      expect(json.branding.tokens.accent500).toBe('#E89F4C'); // signal-lucerna
+      expect(json.branding.tokens.sealPorphyry).toBe('#8B4A5A'); // púrpura porfídica
+      expect(json.branding.tokens.accentForeground).toBe('#14110D'); // WCAG AAA
     });
   });
 });

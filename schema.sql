@@ -123,6 +123,25 @@ VALUES
   ('srv_val_02', 'firm_valenzuela', 'Defensa en Litigio y Cobranza Judicial', 'consulta_inicial', 2500.0, 'Estrategia procesal para recuperación de cartera y mediación mercantil.', 2),
   ('srv_val_03', 'firm_valenzuela', 'Gobierno Corporativo y Asambleas de Accionistas', 'cuota_fija', 7500.0, 'Formalización notarial de libros corporativos, fusiones y poderes.', 3);
 
+-- 8. Semilla Muestra: AUREUS VIGIL (Guardia Legal Permanente · Penal y Amparo)
+INSERT OR REPLACE INTO firms (
+  id, slug, name, commercial_name, legal_name, rfc, bar_association, lead_partner,
+  cedula_profesional, specialty_focus, whatsapp, whatsapp_display, email, clabe, bank, clabe_holder,
+  creator_url, lightning, theme_primary, theme_accent
+) VALUES (
+  'firm_vigil', 'vigil', 'AUREUS VIGIL · Guardia Legal Permanente', 'AUREUS VIGIL',
+  'Defensa Penal Inmediata SC', 'DPI210815AB9', 'Barra Mexicana de Abogados Penalistas', 'Lic. Marco Valenzuela',
+  'PEN-5819024', 'Urgencias Penales 24/7, Ministerio Público y Amparo contra Detención', '525541691234',
+  '+52 55 4169 1234', 'guardia@aureusvigil.mx', '012180001234567890', 'BBVA México', 'Defensa Penal Inmediata SC',
+  'https://aureusvigil.mx', 'vigil@blink.sv', '#0F0D0A', '#E89F4C'
+);
+DELETE FROM practice_areas WHERE firm_id = 'firm_vigil';
+INSERT OR REPLACE INTO practice_areas (id, firm_id, name, code, fee_type, base_fee, weight, badge, icon, description, display_order)
+VALUES
+  ('srv_vigil_01', 'firm_vigil', 'Despliegue Inmediato ante MP / Sede Ministerial', 'PEN-01', 'cuota_fija', 9500.0, 'Despliegue nocturno < 8 min · CDMX y Zona Metro', 'URGENCIA INMEDIATA', 'lucerna', 'Custodio presencial en agencia del Ministerio Público. Garantía de comunicación con defensor, certificación médica y tutela inmediata de derechos constitucionales.', 1),
+  ('srv_vigil_02', 'firm_vigil', 'Demanda de Amparo Urgente y Suspensión de Plano', 'AMP-02', 'cuota_fija', 18500.0, 'Juzgado de Distrito de Guardia · Turno 24/7', 'CÓDICE PROBATORIO', 'scroll', 'Redacción y presentación inmediata de demanda de amparo indirecto contra incomunicación, tortura, retención ilegal o extradición con fe ministerial.', 2),
+  ('srv_vigil_03', 'firm_vigil', 'Triage de Crisis Penal y Defensa en Audiencia Inicial', 'AUD-03', 'cuota_fija', 25000.0, 'Audiencia de Control de Detención', 'DEFENSA INTEGRAL', 'shield', 'Defensa técnica ante Juez de Control para debatir legalidad de la detención, imputación y solicitud de medidas cautelares no privativas de la libertad.', 3);
+
 -- Semilla de Alertas Regulatorias Sentinela
 INSERT OR REPLACE INTO sentinela_events (id, source, source_url, channel, title, summary, severity, effective_date, action_required, matched_practice_area)
 VALUES

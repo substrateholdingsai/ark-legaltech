@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="nox">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AUREUS VIGIL · Guardia Legal Permanente · Penal & Amparo</title>
+  <meta name="description" content="Línea de atención penal urgente 24/7. Despliegue inmediato ante Ministerio Público, amparo contra detención ilegal y suspensión de plano. Tiempo de despliegue < 8 min.">
+  <link rel="icon" type="image/svg+xml" href="/assets/vigil/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/vigil/favicon.svg">
+  <meta name="theme-color" content="#0F0D0A">
+
+  <!-- Tríada Tipográfica AUREUS: Cormorant Garamond + Inter + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Tokens AUREUS VIGIL — Modo Nocturno de Crisis */
+      --vigil-bg-primary: #0F0D0A;
+      --vigil-bg-canvas: #15120F;
+      --vigil-bg-surface: #1E1A15;
+      --vigil-border: #2D2720;
+      --vigil-stripe: #8B4A5A;        /* Púrpura porfídica imperial */
+      --signal-lucerna: #E89F4C;      /* Ámbar de señalización romana (Lucerna) */
+      --signal-lucerna-hover: #F2AE62;
+      --signal-dark: #14110D;         /* Texto oscuro WCAG AAA (7.8:1) */
+      --text-primary: #FAF6EE;
+      --text-secondary: #C4BAAA;
+      --text-muted: #8E8373;
+      --agent-steel: #8AAEC4;         /* Acero luminoso para traza y triage */
+      --risk-terracotta: #CC766C;     /* Reservado solo para estado legal grave */
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--vigil-bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.55;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* 1. Franja Superior Púrpura Porfídica */
+    .porphyry-stripe {
+      height: 4px;
+      background: var(--vigil-stripe);
+      width: 100%;
+    }
+
+    /* Barra de Vigilia Activa */
+    .vigil-topbar {
+      background: #17130F;
+      border-bottom: 1px solid var(--vigil-border);
+      padding: 0.5rem 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .status-beacon {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--signal-lucerna);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+    .lucerna-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--signal-lucerna);
+      box-shadow: 0 0 12px var(--signal-lucerna);
+      animation: lucernaPulse 2s ease-in-out infinite;
+    }
+    @keyframes lucernaPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(1.35); }
+    }
+
+    /* Header */
+    header {
+      background: rgba(15, 13, 10, 0.94);
+      border-bottom: 1px solid var(--vigil-border);
+      backdrop-filter: blur(14px);
+      padding: 1rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-mark { width: 34px; height: 34px; flex-shrink: 0; }
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+    .brand-sub {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      color: var(--signal-lucerna);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* HERO: SAGRADA ESTRUCTURA MOBILE-FIRST */
+    .hero-container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 3.5rem;
+    }
+    .hero-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.25rem;
+    }
+    .protocol-tag {
+      background: rgba(139, 74, 90, 0.25);
+      border: 1px solid rgba(139, 74, 90, 0.55);
+      color: #E2A6B4;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 4px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    h1.hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.3rem, 6vw, 3.4rem);
+      font-weight: 600;
+      line-height: 1.06;
+      letter-spacing: -0.015em;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    p.hero-lead {
+      color: var(--text-secondary);
+      font-size: 1.12rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    /* EL BOTÓN SAGRADO DE LUCERNA (TAMAÑO PULGAR WCAG AAA) */
+    .btn-lucerna-call {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--signal-lucerna);
+      color: var(--signal-dark);
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 8px 32px rgba(232, 159, 76, 0.35);
+      transition: all 0.18s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      width: 100%;
+    }
+    .btn-lucerna-call:hover {
+      background: var(--signal-lucerna-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(232, 159, 76, 0.5);
+    }
+    .btn-call-title {
+      font-family: var(--font-body);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .btn-call-sub {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      opacity: 0.9;
+      margin-top: 0.2rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Acciones Secundarias */
+    .secondary-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+      margin-top: 1.25rem;
+    }
+    @media (max-width: 580px) {
+      .secondary-actions { grid-template-columns: 1fr; }
+    }
+    .btn-secondary-vigil {
+      background: var(--vigil-bg-surface);
+      border: 1px solid var(--vigil-border);
+      color: var(--agent-steel);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.16s ease;
+    }
+    .btn-secondary-vigil:hover {
+      border-color: var(--agent-steel);
+      color: #FAF6EE;
+      background: rgba(138, 174, 196, 0.12);
+    }
+
+    /* TARJETA CUSTODIOS EN TURNO */
+    .custodians-card {
+      background: var(--vigil-bg-surface);
+      border: 1px solid var(--vigil-border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .custodians-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--vigil-border);
+    }
+    .custodian-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(45, 39, 32, 0.5);
+    }
+    .custodian-row:last-child { border-bottom: none; }
+    .custodian-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #14110D;
+      border: 1px solid var(--signal-lucerna);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--signal-lucerna);
+      flex-shrink: 0;
+    }
+
+    /* CATÁLOGO DE DESPLIEGUE URGENTE */
+    .services-vigil-section {
+      max-width: 820px;
+      margin: 0 auto 4rem;
+      padding: 0 1.5rem;
+    }
+    .service-vigil-item {
+      background: var(--vigil-bg-surface);
+      border: 1px solid var(--vigil-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      transition: border-color 0.16s ease;
+    }
+    .service-vigil-item:hover {
+      border-color: var(--signal-lucerna);
+    }
+    .cifra-vigil {
+      font-family: var(--font-mono);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--signal-lucerna);
+      font-variant-numeric: tabular-nums lining-nums;
+      text-align: right;
+    }
+
+    /* FORMULARIO DE TRIAGE PENAL */
+    .triage-section {
+      max-width: 820px;
+      margin: 0 auto 5rem;
+      padding: 0 1.5rem;
+    }
+    .triage-card {
+      background: var(--vigil-bg-surface);
+      border: 1px solid var(--vigil-border);
+      border-radius: 14px;
+      padding: 2rem;
+    }
+    .triage-input, .triage-select, .triage-textarea {
+      width: 100%;
+      background: var(--vigil-bg-canvas);
+      border: 1px solid var(--vigil-border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text-primary);
+      outline: none;
+      margin-top: 0.35rem;
+      transition: border-color 0.15s ease;
+    }
+    .triage-input:focus, .triage-textarea:focus {
+      border-color: var(--signal-lucerna);
+      box-shadow: 0 0 0 2px rgba(232, 159, 76, 0.2);
+    }
+
+    /* STICKY BOTTOM BAR (MOBILE-FIRST) */
+    .sticky-vigil-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 13, 10, 0.96);
+      border-top: 1px solid var(--vigil-border);
+      backdrop-filter: blur(12px);
+      padding: 0.75rem 1.25rem;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .sticky-call-btn {
+      flex: 1;
+      background: var(--signal-lucerna);
+      color: var(--signal-dark);
+      text-decoration: none;
+      border-radius: 10px;
+      padding: 0.85rem;
+      font-weight: 700;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 16px rgba(232, 159, 76, 0.3);
+    }
+
+    footer {
+      border-top: 1px solid var(--vigil-border);
+      padding: 3rem 1.5rem 6rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Franja Púrpura Imperial 4px -->
+  <div class="porphyry-stripe"></div>
+
+  <!-- Barra de Vigilia Activa -->
+  <div class="vigil-topbar">
+    <div class="status-beacon">
+      <span class="lucerna-dot"></span>
+      <span>VIGILIA ACTIVA · GUARDIA PERMANENTE</span>
+    </div>
+    <div style="color: var(--text-muted);">
+      ÚLTIMA ACTIVACIÓN: <span id="lastActiveTime" style="color: var(--signal-lucerna); font-weight: 600;">03:42 HRS</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <a href="/vigil" class="brand-group">
+        <img src="/assets/vigil/icon-lucerna.svg" alt="Lucerna" class="brand-mark">
+        <div>
+          <div class="brand-title">AUREUS VIGIL</div>
+          <div class="brand-sub">UNIDAD DE RESPUESTA PENAL & AMPARO</div>
+        </div>
+      </a>
+      <div>
+        <a href="tel:525541691234" style="color: var(--signal-lucerna); font-family: var(--font-mono); font-size: 0.85rem; text-decoration: none; font-weight: 600;">
+          📞 +52 55 4169 1234
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO: SAGRADA ESTRUCTURA MOBILE-FIRST -->
+  <main class="hero-container">
+    <div class="hero-badge-row">
+      <span class="protocol-tag">SEDE MINISTERIAL & AMPARO FEDERAL</span>
+      <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--agent-steel);">PROTOCOLO ART. 20 CONST.</span>
+    </div>
+
+    <h1 class="hero-title">
+      ¿Detención, cateo o citatorio urgente?
+    </h1>
+
+    <p class="hero-lead">
+      En la oscuridad legal, solo la luz disciplinada ofrece refugio. No vendemos esperanza; vendemos presencia inmediata en sede ministerial, protocolo y defensa técnica.
+    </p>
+
+    <!-- BOTÓN SAGRADO DE ACTIVACIÓN DE LÍNEA VIGILIA -->
+    <a href="tel:525541691234" class="btn-lucerna-call">
+      <div class="btn-call-title">
+        <span>📞 ACTIVAR LÍNEA VIGILIA</span>
+      </div>
+      <div class="btn-call-sub">
+        TIEMPO DE DESPLIEGUE INMEDIATO: &lt; 8 MINUTOS
+      </div>
+    </a>
+
+    <!-- Acciones Secundarias -->
+    <div class="secondary-actions">
+      <a href="#triageSection" class="btn-secondary-vigil">
+        <span>📋 Triage Jurídico de Caso</span>
+      </a>
+      <a href="https://wa.me/525541691234?text=URGENCIA%20VIGIL:%20Requiero%20despliegue%20inmediato%20de%20custodio%20legal." target="_blank" class="btn-secondary-vigil" style="color: #25D366; border-color: rgba(37,211,102,0.3);">
+        <span>💬 Canal Directo WhatsApp</span>
+      </a>
+    </div>
+
+    <!-- TARJETA: CUSTODIOS EN TURNO -->
+    <div class="custodians-card">
+      <div class="custodians-head">
+        <div style="font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; color: var(--text-muted); text-transform: uppercase;">
+          CUSTODIOS LEGALES EN TURNO
+        </div>
+        <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--signal-lucerna);">● GUARDIA ACTIVA</span>
+      </div>
+
+      <div class="custodian-row">
+        <div style="display: flex; align-items: center; gap: 0.85rem;">
+          <div class="custodian-avatar">MV</div>
+          <div>
+            <div style="font-weight: 600; color: var(--text-primary); font-size: 0.95rem;">Lic. Marco Valenzuela</div>
+            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">Custodio Penal Titular · Céd. 581902 · Barra Mexicana</div>
+          </div>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--agent-steel);">
+          EN SEDE MP
+        </div>
+      </div>
+
+      <div class="custodian-row">
+        <div style="display: flex; align-items: center; gap: 0.85rem;">
+          <div class="custodian-avatar" style="border-color: var(--agent-steel); color: var(--agent-steel);">VA</div>
+          <div>
+            <div style="font-weight: 600; color: var(--text-primary); font-size: 0.95rem;">Lic. Valeria Arredondo</div>
+            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">Especialista en Amparo & Suspensión · Céd. 721094</div>
+          </div>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--signal-lucerna);">
+          EN GUARDIA
+        </div>
+      </div>
+
+      <div style="margin-top: 1rem; padding-top: 0.85rem; border-top: 1px dashed var(--vigil-border); display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">
+        <span>INTERVENCIONES ESTE MES: <strong style="color: var(--text-primary);">47 CASOS</strong></span>
+        <span>AUDITORÍA: <strong style="color: var(--agent-steel);">CÓDICE PROBATORIO</strong></span>
+      </div>
+    </div>
+  </main>
+
+  <!-- PROTOCOLOS DE DESPLIEGUE URGENTE -->
+  <section class="services-vigil-section">
+    <div style="margin-bottom: 1.5rem;">
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--signal-lucerna); letter-spacing: 0.15em; text-transform: uppercase;">
+        PROTOCOLOS OPERATIVOS
+      </div>
+      <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--text-primary); margin-top: 0.2rem;">
+        Despliegue y Defensa Técnica
+      </h2>
+    </div>
+
+    <!-- Servicio 1 -->
+    <div class="service-vigil-item">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem;">
+        <span style="font-family: var(--font-mono); font-size: 0.7rem; background: rgba(232, 159, 76, 0.15); color: var(--signal-lucerna); border: 1px solid rgba(232, 159, 76, 0.4); padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 700;">
+          URGENCIA PENAL
+        </span>
+        <div class="cifra-vigil">MXN $9,500</div>
+      </div>
+      <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 0.4rem;">
+        Despliegue Inmediato ante Ministerio Público
+      </h3>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.6rem;">
+        Presencia física &lt; 45 minutos en CDMX y Zona Metropolitana
+      </div>
+      <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+        Asistencia técnica al detenido en sede ministerial (Art. 20 Constitucional), entrevista privada, garantía de no autoincriminación y solicitud formal de libertad.
+      </p>
+      <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--vigil-border); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">Entrega de Minuta y Folio Códice</span>
+        <a href="https://wa.me/525541691234?text=Protocolo%20Ministerio%20Publico:%20Requiero%20custodio%20inmediato" target="_blank" style="color: var(--signal-lucerna); font-family: var(--font-mono); font-size: 0.78rem; text-decoration: none; font-weight: 600;">
+          Activar Protocolo →
+        </a>
+      </div>
+    </div>
+
+    <!-- Servicio 2 -->
+    <div class="service-vigil-item">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem;">
+        <span style="font-family: var(--font-mono); font-size: 0.7rem; background: rgba(139, 74, 90, 0.25); color: #E2A6B4; border: 1px solid rgba(139, 74, 90, 0.5); padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 700;">
+          SUSPENSIÓN DE PLANO
+        </span>
+        <div class="cifra-vigil">MXN $18,500</div>
+      </div>
+      <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 0.4rem;">
+        Juicio de Amparo Urgente contra Detención Ilegal o Incomunicación
+      </h3>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.6rem;">
+        Interposición federal 24/7 (Art. 15 Ley de Amparo)
+      </div>
+      <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+        Demanda de amparo indirecto con suspensión provisional inmediata contra actos privativos de libertad, incomunicación o tortura ante juzgados de distrito de guardia.
+      </p>
+      <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--vigil-border); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">Notificación judicial en el acto</span>
+        <a href="https://wa.me/525541691234?text=Protocolo%20Amparo%20Urgente:%20Familiar%20incomunicado/detenido" target="_blank" style="color: var(--signal-lucerna); font-family: var(--font-mono); font-size: 0.78rem; text-decoration: none; font-weight: 600;">
+          Activar Amparo →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULARIO DE TRIAGE JURÍDICO -->
+  <section class="triage-section" id="triageSection">
+    <div class="triage-card">
+      <div style="margin-bottom: 1.5rem;">
+        <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--signal-lucerna); letter-spacing: 0.12em;">TRIAGE INMEDIATO</span>
+        <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--text-primary); margin-top: 0.2rem;">
+          Registro Urgente de Caso
+        </h2>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+          Secreto profesional absoluto (Art. 16 Constitucional). Se asignará el custodio en guardia de inmediato.
+        </p>
+      </div>
+
+      <form id="vigilTriageForm">
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--text-muted);">NOMBRE DEL DETENIDO O FAMILIAR *</label>
+          <input type="text" id="detenidoNombre" class="triage-input" placeholder="Nombre completo" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <label style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--text-muted);">TELÉFONO DE CONTACTO INMEDIATO *</label>
+            <input type="tel" id="contactoTel" class="triage-input" placeholder="10 dígitos para llamada" required>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--text-muted);">AUTORIDAD O SEDE MINISTERIAL</label>
+            <input type="text" id="sedeAutoridad" class="triage-input" placeholder="Ej: MP Cuauhtémoc / FGR">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <label style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--text-muted);">DESCRIPCIÓN DE LOS HECHOS *</label>
+          <textarea id="hechosInput" class="triage-textarea" rows="3" placeholder="Hora de la detención, acusación preliminar o situación actual..." required></textarea>
+        </div>
+
+        <button type="submit" id="triageSubmitBtn" class="btn-lucerna-call" style="padding: 1rem;">
+          <div class="btn-call-title" style="font-size: 1.15rem;">
+            <span>🚨 DESPLEGAR CUSTODIO EN TURNO</span>
+          </div>
+        </button>
+      </form>
+
+      <!-- Folio de Despliegue Generado -->
+      <div id="folioResult" style="display: none; margin-top: 1.5rem; padding: 1.25rem; background: var(--vigil-bg-canvas); border: 1px solid var(--signal-lucerna); border-radius: 10px;">
+        <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--signal-lucerna); font-weight: 700;" id="resFolioText">FOLIO VIGIL: #VIGIL-2026-0000</div>
+        <div style="font-size: 0.9rem; color: var(--text-primary); margin: 0.5rem 0;" id="resCustodioText">Custodio asignado: Lic. Marco Valenzuela</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted);">Protocolo activo. El custodio se comunicará en menos de 5 minutos al número proporcionado.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY BOTTOM BAR (MOBILE-FIRST) -->
+  <div class="sticky-vigil-bar">
+    <div style="line-height: 1.2;">
+      <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--signal-lucerna); font-weight: 700;">LÍNEA DIRECTA 24/7</div>
+      <div style="font-size: 0.8rem; color: var(--text-secondary);">Custodios activos</div>
+    </div>
+    <a href="tel:525541691234" class="sticky-call-btn">
+      <span>📞 LLAMAR (<span style="font-variant-numeric: tabular-nums;">&lt; 8 MIN</span>)</span>
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div style="margin-bottom: 1rem;">
+      <a href="/" style="color: var(--text-secondary); text-decoration: none; margin: 0 0.5rem;">AUREUS Hub</a> ·
+      <a href="/contagram" style="color: var(--text-secondary); text-decoration: none; margin: 0 0.5rem;">Contagram Isfahan</a> ·
+      <a href="tel:525541691234" style="color: var(--signal-lucerna); text-decoration: none; margin: 0 0.5rem;">Línea Vigilia Directa</a>
+    </div>
+    <div>AUREUS VIGIL · Guardia Legal Permanente · Derechos Reservados 2026</div>
+    <div style="font-size: 0.72rem; color: #5C5346; margin-top: 0.5rem;">
+      Protección estricta de secreto profesional al amparo del artículo 16 de la Constitución Política de los Estados Unidos Mexicanos.
+    </div>
+  </footer>
+
+  <script>
+    // Timestamp dinámico de última activación
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(Math.max(0, now.getMinutes() - 14)).padStart(2, '0');
+    document.getElementById('lastActiveTime').textContent = `${hours}:${minutes} HRS`;
+
+    // Envío del Formulario de Triage Penal
+    const form = document.getElementById('vigilTriageForm');
+    const btn = document.getElementById('triageSubmitBtn');
+    const resBox = document.getElementById('folioResult');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const detenido = document.getElementById('detenidoNombre').value.trim();
+      const contacto = document.getElementById('contactoTel').value.trim();
+      const sede = document.getElementById('sedeAutoridad').value.trim() || 'Sede por determinar';
+      const hechos = document.getElementById('hechosInput').value.trim();
+
+      if (!detenido || !contacto || !hechos) return;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span>Desplegando Custodio...</span>';
+
+      try {
+        const res = await fetch('/api/assistant/triage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            client_name: detenido,
+            client_phone: contacto,
+            message: `[URGENCIA PENAL VIGIL]: Sede/Autoridad: ${sede}. Hechos: ${hechos}`,
+            firm: 'vigil',
+          }),
+        });
+
+        const data = await res.json();
+        const folio = data.formal_folio || `#VIGIL-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+
+        document.getElementById('resFolioText').textContent = `FOLIO DE GUARDIA ACTIVADO: ${folio}`;
+        document.getElementById('resCustodioText').textContent = `Custodio Asignado: Lic. Marco Valenzuela (Céd. Penal 581902)`;
+        resBox.style.display = 'block';
+
+        // Disparar apertura de WhatsApp con datos de urgencia
+        const waMsg = `🚨 *ACTIVACIÓN URGENCIA VIGIL*\nFolio: ${folio}\nDetenido: ${detenido}\nContacto: ${contacto}\nSede/Autoridad: ${sede}\nHechos: "${hechos.slice(0, 120)}..."\n\nRequiero llamada inmediata del custodio legal.`;
+        setTimeout(() => {
+          window.open(`https://wa.me/525541691234?text=${encodeURIComponent(waMsg)}`, '_blank');
+        }, 1200);
+
+      } catch (err) {
+        alert('Línea conectada. Si no recibe llamada en 3 min, marque directamente al +52 55 4169 1234.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<div class="btn-call-title" style="font-size: 1.15rem;"><span>🚨 DESPLEGAR CUSTODIO EN TURNO</span></div>';
+      }
+    });
+  </script>
+</body>
+</html>

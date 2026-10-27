@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Llama de la Lucerna Romana -->
+  <path d="M24 6 C 28 14, 30 18, 24 23 C 18 18, 20 14, 24 6 Z" fill="#E89F4C"/>
+  <circle cx="24" cy="15" r="2.5" fill="#FAF6EE"/>
+  <!-- Cuerpo de la lámpara de aceite -->
+  <path d="M12 28 C 12 38, 36 38, 36 28 C 36 24, 29 23, 29 20 L 19 20 C 19 23, 12 24, 12 28 Z" fill="#171512" stroke="#E89F4C" stroke-width="2"/>
+  <!-- Base de apoyo -->
+  <path d="M18 38 L 30 38 L 32 42 L 16 42 Z" fill="#211E1A" stroke="#8B4A5A" stroke-width="1.5"/>
+</svg>

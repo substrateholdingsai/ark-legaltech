@@ -85,4 +85,14 @@ app.get('/contagram', async (c) => {
   return c.text('Contagram · Despacho de Contabilidad · Isfahan Ledger');
 });
 
+// 7. Ruta directa para AUREUS VIGIL (Guardia Nocturna Penal y Amparo)
+app.get('/vigil', async (c) => {
+  if (c.env.ASSETS) {
+    const url = new URL(c.req.url);
+    url.pathname = '/vigil.html';
+    return c.env.ASSETS.fetch(new Request(url.toString(), c.req.raw));
+  }
+  return c.text('AUREUS VIGIL · Guardia Legal Permanente · Penal & Amparo');
+});
+
 export default app;

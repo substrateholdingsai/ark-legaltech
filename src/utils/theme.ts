@@ -72,6 +72,42 @@ export const CONTAGRAM_ISFAHAN_MARMORA_TOKENS: AureusColorTokens = {
   agentSteel: '#1F476F',
 };
 
+export const VIGIL_NOX_TOKENS: AureusColorTokens = {
+  bgPrimary: '#0F0D0A',
+  bgCanvas: '#15120F',
+  bgSurface: '#1E1A15',
+  borderLine: '#2D2720',
+  textPrimary: '#FAF6EE',
+  textSecondary: '#C4BAAA',
+  textMuted: '#8E8373',
+  accent500: '#E89F4C',       // signal-lucerna (ámbar de señalización romana)
+  accent400: '#F2AE62',
+  accentForeground: '#14110D',// texto oscuro WCAG AAA (7.8:1)
+  sealPorphyry: '#8B4A5A',    // púrpura porfídica
+  riskTerracotta: '#CC766C',  // reservado exclusivamente para estado penal crítico
+  pendingBronze: '#E89F4C',
+  approvedOlive: '#7E9A6E',
+  agentSteel: '#8AAEC4',      // acero luminoso para triage y protocolo
+};
+
+export const VIGIL_MARMORA_TOKENS: AureusColorTokens = {
+  bgPrimary: '#FAF6EE',       // pergamino luminoso para legibilidad bajo estrés
+  bgCanvas: '#F3EDE1',
+  bgSurface: '#FFFFFF',
+  borderLine: '#DCD4C4',
+  textPrimary: '#0F0D0A',     // tinta casi negra
+  textSecondary: '#3E362C',
+  textMuted: '#685D4E',
+  accent500: '#B8742A',       // ámbar oscuro para modo claro
+  accent400: '#D48937',
+  accentForeground: '#FAF6EE',
+  sealPorphyry: '#8B4A5A',    // franja de guardia permanente
+  riskTerracotta: '#A84B42',
+  pendingBronze: '#B8742A',
+  approvedOlive: '#3F6B45',
+  agentSteel: '#4C7A99',
+};
+
 export function tokensToCssVariables(tokens: AureusColorTokens): string {
   return [
     `--aureus-bg-primary: ${tokens.bgPrimary};`,
@@ -105,6 +141,16 @@ export function resolveAureusTheme(
       mode,
       tokens: isfahan,
       cssVariables: `:root {\n  ${tokensToCssVariables(isfahan)}\n  --contagram-pattern: url("/assets/contagram/girih-seamless.svg");\n}`,
+      isCustomized: true,
+    };
+  }
+
+  if (firm?.slug === 'vigil') {
+    const vigil = mode === 'marmora' ? VIGIL_MARMORA_TOKENS : VIGIL_NOX_TOKENS;
+    return {
+      mode,
+      tokens: vigil,
+      cssVariables: `:root {\n  ${tokensToCssVariables(vigil)}\n  --signal-lucerna: ${vigil.accent500};\n  --urgency-stripe: #8B4A5A;\n}`,
       isCustomized: true,
     };
   }
