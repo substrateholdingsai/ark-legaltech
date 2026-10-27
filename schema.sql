@@ -11,13 +11,17 @@ CREATE TABLE IF NOT EXISTS firms (
   cedula_profesional TEXT,
   specialty_focus TEXT,
   whatsapp TEXT NOT NULL,
+  whatsapp_display TEXT,
   email TEXT,
   clabe TEXT,
-  bank TEXT DEFAULT 'BBVA',
+  bank TEXT DEFAULT 'Banco Azteca',
   clabe_holder TEXT,
   domain TEXT,
-  theme_primary TEXT DEFAULT '#0A192F',
-  theme_accent TEXT DEFAULT '#D4AF37',
+  creator_url TEXT,
+  btcpay_pos_url TEXT,
+  lightning TEXT,
+  theme_primary TEXT DEFAULT '#071A30',
+  theme_accent TEXT DEFAULT '#C9A227',
   active INTEGER DEFAULT 1,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -31,6 +35,9 @@ CREATE TABLE IF NOT EXISTS practice_areas (
   fee_type TEXT NOT NULL,
   base_fee REAL NOT NULL,
   description TEXT,
+  weight TEXT,
+  badge TEXT,
+  icon TEXT,
   retainer_percentage REAL DEFAULT 50.0,
   active INTEGER DEFAULT 1,
   display_order INTEGER DEFAULT 0
@@ -80,21 +87,25 @@ CREATE TABLE IF NOT EXISTS sentinela_events (
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- 6. Semilla Muestra (Contagram como despacho fiscal)
+-- 6. Semilla Muestra (Contagram como despacho contable y fiscal)
 INSERT OR REPLACE INTO firms (
-  id, slug, name, commercial_name, rfc, bar_association, lead_partner,
-  cedula_profesional, specialty_focus, whatsapp, clabe, bank, clabe_holder, theme_primary, theme_accent
+  id, slug, name, commercial_name, legal_name, rfc, bar_association, lead_partner,
+  cedula_profesional, specialty_focus, whatsapp, whatsapp_display, email, clabe, bank, clabe_holder,
+  creator_url, btcpay_pos_url, lightning, theme_primary, theme_accent
 ) VALUES (
-  'firm_contagram', 'contagram', 'CONTAGRAM · Asesoría Contable & Fiscal', 'Contagram',
-  'CTG200101XYZ', 'Instituto Mexicano de Contadores Públicos', 'C.P. M. Morales',
-  'CP-9821453', 'Contabilidad PyME, SAT & Balanza Mensual', '525657062511',
-  '012180012345678901', 'BBVA', 'Contagram México SC', '#0A192F', '#D4AF37'
+  'firm_contagram', 'contagram', 'Contagram — Despacho de Contabilidad', 'Contagram',
+  'Contagram México SC', 'CTG200101XYZ', 'Instituto Mexicano de Contadores Públicos', 'C.P. M. Morales',
+  'CP-9821453', 'Contabilidad General, SAT, Nómina y Auditoría Financiera', '525657062511',
+  '+52 56 5706 2511', 'contacto@contagram.mx', '127180001844721431', 'Banco Azteca', 'Contagram México SC',
+  'https://contagram.mx', 'https://btcpay.contagram.mx/pos', 'contagram@blink.sv', '#071A30', '#C9A227'
 );
-INSERT OR REPLACE INTO practice_areas (id, firm_id, name, fee_type, base_fee, description, display_order)
+DELETE FROM practice_areas WHERE firm_id = 'firm_contagram';
+INSERT OR REPLACE INTO practice_areas (id, firm_id, name, code, fee_type, base_fee, weight, badge, icon, description, display_order)
 VALUES
-  ('srv_cont_01', 'firm_contagram', 'Diagnóstico y Regularización Fiscal SAT', 'consulta_inicial', 1800.0, 'Revisión integral de buzón tributario y opiniones de cumplimiento 32-D.', 1),
-  ('srv_cont_02', 'firm_contagram', 'Contabilidad General y Balanza Mensual', 'iguala_mensual', 2800.0, 'Pólizas, cálculo de IVA/ISR, DIOT y timbrado de nómina hasta 10 colaboradores.', 2),
-  ('srv_cont_03', 'firm_contagram', 'Defensa y Aclaración de Requerimientos', 'cuota_fija', 4500.0, 'Atención jurídica a multas y embargos de cuentas ante el SAT e IMSS.', 3);
+  ('srv_cont_01', 'firm_contagram', 'Contabilidad General y Mensual', 'CONT-01', 'iguala_mensual', 2800.0, 'Mensual · Hasta 60 pólizas', 'BASE · MRR', 'package', 'Registro analítico de pólizas, conciliaciones bancarias, balanza de comprobación y estados financieros mensuales. Certidumbre y orden estricto en cada balance.', 1),
+  ('srv_cont_02', 'firm_contagram', 'Declaraciones Fiscales y Cumplimiento', 'SAT-02', 'cuota_fija', 3500.0, 'Declaración mensual o anual', 'OBLIGATORIO', 'layers', 'Cálculo exacto de impuestos (ISR, IVA, retenciones, DIOT) y atención inmediata a requerimientos del SAT para mantener tu opinión de cumplimiento positiva.', 2),
+  ('srv_cont_03', 'firm_contagram', 'Nómina y Seguridad Social', 'NOM-03', 'iguala_mensual', 1950.0, 'Quincenal · Hasta 10 colaboradores', 'OPERATIVO', 'box', 'Timbrado de CFDI de nómina, dispersión, cálculo de finiquitos y gestión integral de altas, bajas y modificaciones ante el IMSS e INFONAVIT.', 3),
+  ('srv_cont_04', 'firm_contagram', 'Auditoría y Diagnóstico Financiero', 'AUD-04', 'cuota_fija', 8500.0, 'Por dictamen / proyecto', 'PREMIUM', 'cuboid', 'Revisión profunda de control interno, auditoría de CFDI emitidos vs recibidos, prevención de discrepancia fiscal y análisis de riesgos tributarios.', 4);
 
 -- 7. Semilla Muestra (Valenzuela & Asociados como despacho jurídico / corporativo)
 INSERT OR REPLACE INTO firms (

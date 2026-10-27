@@ -16,8 +16,8 @@ describe('AUREUS API Routes & Tenant Provisioning', () => {
     specialty_focus: 'Contabilidad PyME & SAT',
     whatsapp: '525657062511',
     email: 'contacto@contagram.mx',
-    clabe: '012180012345678901',
-    bank: 'BBVA',
+    clabe: '127180001844721431',
+    bank: 'Banco Azteca',
     clabe_holder: 'Contagram México SC',
     domain: null,
     theme_primary: '#0A192F',
@@ -149,7 +149,7 @@ describe('AUREUS API Routes & Tenant Provisioning', () => {
     expect(body.quoted_fee).toBe(1800);
     expect(body.formal_folio).toMatch(/^#EXP-2026-\d{4}$/);
     expect(body.lead_partner).toBe('C.P. M. Morales');
-    expect(body.bank).toBe('BBVA');
+    expect(body.bank).toBe('Banco Azteca');
     expect(body.client_name).toBe('Ing. Carlos Mendoza');
     expect(body.whatsapp_url).toContain('https://wa.me/525657062511');
     expect(consultationInserted).toBe(true);

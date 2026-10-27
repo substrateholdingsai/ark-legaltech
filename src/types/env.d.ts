@@ -10,11 +10,15 @@ export interface Firm {
   cedula_profesional: string | null;
   specialty_focus: string | null;
   whatsapp: string;
+  whatsapp_display?: string | null;
   email: string | null;
   clabe: string | null;
   bank: string | null;
   clabe_holder: string | null;
   domain: string | null;
+  creator_url?: string | null;
+  btcpay_pos_url?: string | null;
+  lightning?: string | null;
   theme_primary: string | null;
   theme_accent: string | null;
   active: number;
@@ -30,6 +34,9 @@ export interface PracticeArea {
   fee_type: string;
   base_fee: number;
   description: string | null;
+  weight?: string | null;
+  badge?: string | null;
+  icon?: string | null;
   retainer_percentage: number | null;
   active: number;
   display_order: number;
