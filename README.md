@@ -1,17 +1,48 @@
 # ark-legaltech
 
-Red agéntica de despachos jurídicos, contables y notariales en Cloudflare Workers.
+Plataforma Multi-Tenant de **Landing Pages Comerciales con Inteligencia Regulatoria SENTINELA** para Abogados, Contadores y Notarios en Cloudflare Workers.
 
-## AUREUS
+---
+
+## 💡 Modelo de Negocio: Proposición 2 en 1
+
+1. **La Necesidad del Profesional:** Los despachos jurídicos y contables pierden prospectos con páginas web genéricas y estáticas que no ofrecen valor real ni demuestran autoridad inmediata.
+2. **Nuestra Ventaja Inigualable (El Moat):** Nuestras landing pages son las **únicas del mercado con inteligencia legal y fiscal (SENTINELA) incluida en tiempo real**.
+3. **Monetización Dual:**
+   - Para que el despacho goce de los datos y beneficios de **SENTINELA**, adquiere la **landing page multi-tenant** que recibe y procesa las alertas.
+   - La landing page convierte prospectos de forma proactiva: ante cada alerta del SAT, DOF o BANXICO, ofrece al cliente un botón de **protección inmediata por WhatsApp** o solicitud de diagnóstico formal con folio.
+
+---
+
+## AUREUS × SENTINELA
 
 Instancia legal-tech del sistema **AUREUS**.  
 Versión 0.1.0 · Instancia: AUREUS · Fecha: 2026-10-27
 
 > **AUREUS no decora el derecho: lo acuña.**  
 > Cada color es estado. Cada arco es validación. Cada sello es responsabilidad.  
-> La IA agéntica no sustituye al abogado: traza la vía, ordena la tabula y prepara el sello.
+> La IA agéntica no sustituye al profesional: vigila la ley con Sentinela, traza la vía y prepara la consulta con el titular.
 
-Arquitectura objetivo: **Cloudflare Workers multi-tenant** + frontend React/Vite o Astro/PWA.
+Arquitectura objetivo: **Cloudflare Workers multi-tenant** + landing page en Edge con Three.js y D1 SQLite.
+
+---
+
+## Funcionalidades de la Landing Page Comercial
+
+1. **Multi-Tenant Dinámico en Edge:**
+   - Resuelve el despacho por subdominio (`contagram.arksystems.site`), dominio personalizado o query string (`/?firm=contagram` vs `/?firm=valenzuela`).
+   - Adapta automáticamente el titular, cédula profesional, barra o colegio, catálogo de servicios, honorarios y número de WhatsApp oficial.
+2. **Radar Regulatorio SENTINELA 24/7:**
+   - 5 balizas orbitales en 3D (Three.js) monitoreando: **SAT, DOF, BANXICO, CNBV y CONDUSEF**.
+   - Feed interactivo con cálculo de impacto preventivo.
+   - **Acción de 1-Clic a WhatsApp:** cada alerta incluye enlace pre-llenado al WhatsApp del socio titular para atender al cliente al instante.
+3. **Tabula Cerata & Triaje Formal:**
+   - Formulario de contacto con captura de cliente, teléfono, correo y caso.
+   - Clasificación por rama jurídica/fiscal y cotización automática de honorarios base.
+   - Emisión de folio auditable (`#EXP-2026-XXXX`) y botón para continuar la conversación en WhatsApp con el titular.
+4. **Modo Dual Cromático AUREUS:**
+   - **Nox Basalt:** modo oscuro institucional de alta autoridad (AAA contrast).
+   - **Marmora Pergamino:** modo claro patrimonial.
 
 ---
 
