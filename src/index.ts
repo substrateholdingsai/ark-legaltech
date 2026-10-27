@@ -75,4 +75,14 @@ app.get('/', async (c) => {
   return c.text('Ark Legaltech · AUREUS Legal Tech Romano');
 });
 
+// 6. Ruta directa para Contagram (Isfahan Ledger Edition)
+app.get('/contagram', async (c) => {
+  if (c.env.ASSETS) {
+    const url = new URL(c.req.url);
+    url.pathname = '/contagram.html';
+    return c.env.ASSETS.fetch(new Request(url.toString(), c.req.raw));
+  }
+  return c.text('Contagram · Despacho de Contabilidad · Isfahan Ledger');
+});
+
 export default app;
