@@ -9,10 +9,10 @@
   <link rel="manifest" href="/site.webmanifest">
   <meta name="theme-color" content="#100F0D">
 
-  <!-- Tríada Tipográfica AUREUS -->
+  <!-- Tipografías: AUREUS Display + Inter + IBM Plex Mono (Ley de las Cifras) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Three.js para renderizado del Radar 3D -->
   <script type="importmap">
@@ -67,6 +67,39 @@
       --aureus-approved: #3F6B45;
       --aureus-agent: #2F5D7C;
       --aureus-wa: #1EBE5D;
+    }
+
+    /* CONTAGRAM · ISFAHAN LEDGER CANON DE DISEÑO v1.0 */
+    [data-firm="contagram"] {
+      --aureus-bg-primary: #040F1D;       /* lapis-950: fondo abisal */
+      --aureus-bg-canvas: #071A30;        /* lapis-900: superficie nocturna */
+      --aureus-bg-surface: #0C2440;       /* lapis-800: tarjetas y libro mayor */
+      --aureus-border-line: #143353;      /* lapis-700: filetes estructurales */
+      --aureus-text-primary: #FBF9F4;     /* chalk-50: cal cálida */
+      --aureus-text-secondary: #DCE6F2;   /* lapis-100: texto secundario */
+      --aureus-text-muted: #8FAAC6;       /* lapis-300: datos mono, ejes */
+      --aureus-accent-500: #C9A227;       /* gold-500: oro acento principal */
+      --aureus-accent-400: #D4AF37;       /* gold-400: hover / foco */
+      --aureus-accent-foreground: #040F1D;/* lapis-950: WCAG 2.2 AAA verificado 7.7:1 */
+      --aureus-seal: #7E6114;            /* gold-700 */
+      --aureus-approved: #2E7D6F;        /* lcd: balance conforme */
+      --aureus-font-mono: "IBM Plex Mono", "JetBrains Mono", monospace;
+    }
+    [data-firm="contagram"] .bg-tessera {
+      background-image: url("/assets/contagram/girih-seamless.svg");
+      background-size: 360px 360px;
+    }
+    [data-firm="contagram"][data-theme="marmora"] {
+      --aureus-bg-primary: #FBF9F4;
+      --aureus-bg-canvas: #F4F0E6;
+      --aureus-bg-surface: #FFFFFF;
+      --aureus-border-line: #E8E2D4;
+      --aureus-text-primary: #040F1D;
+      --aureus-text-secondary: #143353;
+      --aureus-text-muted: #35608A;
+      --aureus-accent-500: #7E6114;
+      --aureus-accent-400: #C9A227;
+      --aureus-accent-foreground: #FBF9F4;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -689,7 +722,9 @@
       font-size: 1.25rem;
       font-weight: 700;
       color: var(--aureus-accent-400);
-      font-variant-numeric: tabular-nums;
+      font-variant-numeric: tabular-nums lining-nums;
+      text-align: right;
+      letter-spacing: -0.02em;
     }
 
     /* SECCIÓN CONTACTO & TABULA CERATA */
@@ -793,7 +828,8 @@
       font-size: 1.8rem;
       font-weight: 700;
       color: var(--aureus-accent-400);
-      font-variant-numeric: tabular-nums;
+      font-variant-numeric: tabular-nums lining-nums;
+      text-align: right;
     }
 
     /* BOTÓN FLOTANTE WHATSAPP */
@@ -864,13 +900,15 @@
   <header>
     <div class="header-inner">
       <a href="/" class="brand-lockup">
-        <svg class="brand-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="64" height="64" rx="14" fill="#100F0D"/>
-          <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" stroke="#3B342B" stroke-width="1.5"/>
-          <path d="M18 46 V30 A14 14 0 0 1 46 30 V46" stroke="#DCBD85" stroke-width="4" stroke-linecap="round"/>
-          <rect x="28" y="22" width="8" height="8" rx="2" fill="#8B4A5A" stroke="#DCBD85" stroke-width="1.5"/>
-          <path d="M22 46 H42" stroke="#C9A664" stroke-width="3" stroke-linecap="round"/>
-        </svg>
+        <div id="brandMarkContainer">
+          <svg class="brand-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="14" fill="#071A30"/>
+            <rect x="3.5" y="3.5" width="57" height="57" rx="11" fill="none" stroke="#C9A227" stroke-width="1" opacity=".45"/>
+            <path d="M46.14,17.86L52,32L46.14,46.14L32,52L17.86,46.14L12,32L17.86,17.86L32,12Z" fill="none" stroke="#C9A227" stroke-width="3.4"/>
+            <path d="M32,18.8L34.52,25.43L41.32,22.68L40.09,29.91L45.2,32L40.09,34.09L41.32,41.32L34.52,38.57L32,45.2L29.48,38.57L22.68,41.32L23.91,34.09L18.8,32L23.91,29.91L22.68,22.68L29.48,25.43Z" fill="none" stroke="#C9A227" stroke-width="2.4"/>
+            <circle cx="32" cy="32" r="3.7" fill="#C9A227"/>
+          </svg>
+        </div>
         <div>
           <div class="brand-title" id="headerFirmName">CONTAGRAM</div>
           <div class="brand-subtitle" id="headerPartnerName">C.P. M. Morales · Especialista Fiscal</div>
@@ -1339,13 +1377,44 @@
       document.getElementById('badgeBar').textContent = firm.bar_association || 'Colegio Profesional Certificado';
       document.getElementById('badgeCedula').textContent = firm.cedula_profesional || 'CP-9821453';
 
-      // Textos del Hero adaptados al giro del despacho
-      if (firm.slug === 'valenzuela') {
+      // Textos del Hero y Tokens adaptados al Canon de cada despacho
+      if (firm.slug === 'contagram') {
+        document.body.setAttribute('data-firm', 'contagram');
+        document.getElementById('brandMarkContainer').innerHTML = `
+          <svg class="brand-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="14" fill="#071A30"/>
+            <rect x="3.5" y="3.5" width="57" height="57" rx="11" fill="none" stroke="#C9A227" stroke-width="1" opacity=".45"/>
+            <path d="M46.14,17.86L52,32L46.14,46.14L32,52L17.86,46.14L12,32L17.86,17.86L32,12Z" fill="none" stroke="#C9A227" stroke-width="3.4"/>
+            <path d="M32,18.8L34.52,25.43L41.32,22.68L40.09,29.91L45.2,32L40.09,34.09L41.32,41.32L34.52,38.57L32,45.2L29.48,38.57L22.68,41.32L23.91,34.09L18.8,32L23.91,29.91L22.68,22.68L29.48,25.43Z" fill="none" stroke="#C9A227" stroke-width="2.4"/>
+            <circle cx="32" cy="32" r="3.7" fill="#C9A227"/>
+          </svg>
+        `;
+        document.getElementById('heroHeadline').innerHTML = `La certeza es ornamental. <span class="accent">El orden se ve.</span>`;
+        document.getElementById('heroDesc').textContent = `Un libro mayor es un mosaico: si una tesela falla, se ve en todo el muro. Entregamos certidumbre contable y fiscal blindada 24/7 con el radar regulatorio Sentinela.`;
+        document.getElementById('servicesSubtitle').textContent = `Teselas de servicio contable con base impositiva y orden analítico estricto.`;
+
+        // 3D Prisma en azul lapislázuli y oro Isfahan
+        if (coreMesh) coreMesh.material.color.setHex(0x071A30);
+        if (trimMesh) trimMesh.material.color.setHex(0xC9A227);
+        if (keyMesh) keyMesh.material.color.setHex(0x0C2440);
+      } else {
+        document.body.removeAttribute('data-firm');
+        document.getElementById('brandMarkContainer').innerHTML = `
+          <svg class="brand-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="14" fill="#100F0D"/>
+            <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" stroke="#3B342B" stroke-width="1.5"/>
+            <path d="M18 46 V30 A14 14 0 0 1 46 30 V46" stroke="#DCBD85" stroke-width="4" stroke-linecap="round"/>
+            <rect x="28" y="22" width="8" height="8" rx="2" fill="#8B4A5A" stroke="#DCBD85" stroke-width="1.5"/>
+            <path d="M22 46 H42" stroke="#C9A664" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        `;
         document.getElementById('heroHeadline').innerHTML = `Blindaje Legal, Corporativo y Litigio respaldado por <span class="accent">inteligencia regulatoria</span>.`;
         document.getElementById('heroDesc').textContent = `Protegemos los contratos, sociedades y patrimonio de tu empresa. Monitoreamos en tiempo real circulares de BANXICO, reformas del DOF y juzgados mercantiles para blindar tus operaciones antes de cualquier contingencia judicial.`;
-      } else {
-        document.getElementById('heroHeadline').innerHTML = `Defensa Fiscal y Contable blindada por <span class="accent">inteligencia regulatoria</span>.`;
-        document.getElementById('heroDesc').textContent = `No esperamos a que te llegue el requerimiento o la restricción de sellos: monitoreamos el SAT, DOF y BANXICO las 24 horas con el radar Sentinela para anticipar contingencias antes de que paralicen tu empresa.`;
+        document.getElementById('servicesSubtitle').textContent = `Esquemas de honorarios transparentes sin costos ocultos.`;
+
+        if (coreMesh) coreMesh.material.color.setHex(0x171512);
+        if (trimMesh) trimMesh.material.color.setHex(0xC9A664);
+        if (keyMesh) keyMesh.material.color.setHex(0x8B4A5A);
       }
 
       // Catálogo de Servicios

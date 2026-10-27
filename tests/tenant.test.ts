@@ -240,7 +240,7 @@ describe('AUREUS Multi-Tenant Architecture', () => {
       const json = await res.json() as { firm: Firm; branding: { mode: string; tokens: { bgPrimary: string } } };
       expect(json.firm.slug).toBe('contagram');
       expect(json.branding.mode).toBe('nox');
-      expect(json.branding.tokens.bgPrimary).toBe('#100F0D');
+      expect(json.branding.tokens.bgPrimary).toBe('#040F1D');
     });
   });
 });

@@ -36,6 +36,42 @@ export const AUREUS_MARMORA_TOKENS: AureusColorTokens = {
   agentSteel: '#2F5D7C',
 };
 
+export const CONTAGRAM_ISFAHAN_NOX_TOKENS: AureusColorTokens = {
+  bgPrimary: '#040F1D',       // lapis-950 (fondo abisal)
+  bgCanvas: '#071A30',        // lapis-900 (superficie primaria)
+  bgSurface: '#0C2440',       // lapis-800 (tarjetas, libro mayor)
+  borderLine: '#143353',      // lapis-700 (filetes estructurales)
+  textPrimary: '#FBF9F4',     // chalk-50 (cal cálida)
+  textSecondary: '#DCE6F2',   // lapis-100 (texto secundario)
+  textMuted: '#8FAAC6',       // lapis-300 (datos mono, ejes)
+  accent500: '#C9A227',       // gold-500 (oro acento)
+  accent400: '#D4AF37',       // gold-400 (hover)
+  accentForeground: '#040F1D',// lapis-950 (WCAG 2.2 AAA verificado 7.7:1)
+  sealPorphyry: '#7E6114',    // gold-700
+  riskTerracotta: '#CC766C',
+  pendingBronze: '#D4AF37',
+  approvedOlive: '#2E7D6F',   // lcd contagram
+  agentSteel: '#35608A',      // lapis-500
+};
+
+export const CONTAGRAM_ISFAHAN_MARMORA_TOKENS: AureusColorTokens = {
+  bgPrimary: '#FBF9F4',       // chalk-50
+  bgCanvas: '#F4F0E6',        // chalk-100
+  bgSurface: '#FFFFFF',
+  borderLine: '#E8E2D4',      // chalk-200
+  textPrimary: '#040F1D',     // lapis-950
+  textSecondary: '#143353',   // lapis-700
+  textMuted: '#35608A',       // lapis-500
+  accent500: '#7E6114',       // gold-700
+  accent400: '#C9A227',       // gold-500
+  accentForeground: '#FBF9F4',// chalk-50
+  sealPorphyry: '#0C2440',
+  riskTerracotta: '#A84B42',
+  pendingBronze: '#7E6114',
+  approvedOlive: '#2E7D6F',
+  agentSteel: '#1F476F',
+};
+
 export function tokensToCssVariables(tokens: AureusColorTokens): string {
   return [
     `--aureus-bg-primary: ${tokens.bgPrimary};`,
@@ -55,7 +91,7 @@ export function tokensToCssVariables(tokens: AureusColorTokens): string {
     `--aureus-agent: ${tokens.agentSteel};`,
     `--aureus-font-display: "Cormorant Garamond", "EB Garamond", Georgia, serif;`,
     `--aureus-font-body: Inter, Helvetica, Arial, sans-serif;`,
-    `--aureus-font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;`,
+    `--aureus-font-mono: "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;`,
   ].join('\n  ');
 }
 
@@ -63,6 +99,16 @@ export function resolveAureusTheme(
   firm?: Partial<Firm> | null,
   mode: 'nox' | 'marmora' = 'nox'
 ): AureusThemeConfig {
+  if (firm?.slug === 'contagram') {
+    const isfahan = mode === 'marmora' ? CONTAGRAM_ISFAHAN_MARMORA_TOKENS : CONTAGRAM_ISFAHAN_NOX_TOKENS;
+    return {
+      mode,
+      tokens: isfahan,
+      cssVariables: `:root {\n  ${tokensToCssVariables(isfahan)}\n  --contagram-pattern: url("/assets/contagram/girih-seamless.svg");\n}`,
+      isCustomized: true,
+    };
+  }
+
   const baseTokens = mode === 'marmora' ? AUREUS_MARMORA_TOKENS : AUREUS_NOX_TOKENS;
   const tokens = { ...baseTokens };
   let isCustomized = false;
