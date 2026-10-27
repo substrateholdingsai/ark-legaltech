@@ -1,0 +1,24 @@
+{
+  "name": "ark-legaltech",
+  "version": "1.0.0",
+  "description": "Red agéntica de despachos jurídicos, contables y notariales en Cloudflare Workers",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "d1:init": "wrangler d1 execute ark-legaltech-db --local --file=schema.sql",
+    "d1:remote": "wrangler d1 execute ark-legaltech-db --remote --file=schema.sql"
+  },
+  "dependencies": {
+    "hono": "^4.6.14"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241205.0",
+    "typescript": "^5.7.2",
+    "vitest": "^5.0.5",
+    "wrangler": "^3.91.0"
+  }
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 160" width="640" height="160">
+  <defs>
+    <linearGradient id="lockupGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#DCBD85"/>
+      <stop offset="1" stop-color="#C9A664"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(24 24) scale(1.75)">
+    <rect width="64" height="64" rx="14" fill="#100F0D"/>
+    <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" fill="none" stroke="#3B342B" stroke-width="1.5"/>
+    <path d="M18 46 V30 A14 14 0 0 1 46 30 V46" fill="none" stroke="url(#lockupGold)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="28" y="22" width="8" height="8" rx="2" fill="#8B4A5A" stroke="#DCBD85" stroke-width="1.5"/>
+    <path d="M22 46 H42" stroke="#C9A664" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <text x="160" y="82" font-family="Cormorant Garamond, EB Garamond, Georgia, serif" font-size="58" font-weight="600" letter-spacing="6" fill="#DCBD85">AUREUS</text>
+  <text x="162" y="116" font-family="Inter, Helvetica, Arial, sans-serif" font-size="17" font-weight="500" letter-spacing="4" fill="#B8AE9E">LEGAL TECH ROMANO</text>
+  <path d="M160 132 H600" stroke="#3B342B" stroke-width="1"/>
+</svg>

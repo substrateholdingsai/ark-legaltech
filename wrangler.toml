@@ -1,0 +1,26 @@
+name = "ark-legaltech"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+[assets]
+directory = "./public"
+not_found_handling = "single-page-application"
+[vars]
+SITE_NAME = "Ark Legaltech"
+SITE_URL = "https://legal.arksystems.site"
+WHATSAPP_NUMBER = "529994918221"
+WHATSAPP_VERIFY_TOKEN = "ark_legaltech_wa_verify_2026"
+DEFAULT_BANK = "BBVA"
+DEFAULT_CLABE = "012180012345678901"
+[ai]
+binding = "AI"
+[[d1_databases]]
+binding = "DB"
+database_name = "ark-legaltech-db"
+database_id = "TBD_POR_CREAR"
+[[kv_namespaces]]
+binding = "CACHE"
+id = "TBD_CACHE"
+[[kv_namespaces]]
+binding = "SESSION"
+id = "TBD_SESSION"

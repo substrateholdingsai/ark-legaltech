@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="ogGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#DCBD85"/>
+      <stop offset="1" stop-color="#C9A664"/>
+    </linearGradient>
+    <filter id="ogNoise" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="27" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0.79
+                                                     0 0 0 0 0.65
+                                                     0 0 0 0 0.39
+                                                     0 0 0 0.07 0"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="#100F0D"/>
+  <rect width="1200" height="630" filter="url(#ogNoise)"/>
+  <rect x="40" y="40" width="1120" height="550" fill="none" stroke="#3B342B" stroke-width="1"/>
+
+  <g transform="translate(100 190) scale(3.2)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 46 V30 A14 14 0 0 1 46 30 V46" stroke="url(#ogGold)" stroke-width="4"/>
+    <rect x="28" y="22" width="8" height="8" rx="2" fill="#8B4A5A" stroke="#DCBD85" stroke-width="1.5"/>
+    <path d="M22 46 H42" stroke="#C9A664" stroke-width="3"/>
+  </g>
+
+  <text x="380" y="285" font-family="Cormorant Garamond, EB Garamond, Georgia, serif" font-size="104" font-weight="600" letter-spacing="4" fill="#DCBD85">AUREUS</text>
+  <text x="382" y="345" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34" font-weight="500" fill="#F3ECDF">Legal Tech Romano</text>
+  <text x="382" y="395" font-family="Inter, Helvetica, Arial, sans-serif" font-size="24" font-weight="400" fill="#B8AE9E">Autoridad mineral · precisión jurídica · confianza acuñada</text>
+  <text x="382" y="480" font-family="JetBrains Mono, IBM Plex Mono, Consolas, monospace" font-size="22" fill="#C9A664">aureus.arksystems.site</text>
+
+  <circle cx="1020" cy="180" r="70" fill="#8B4A5A" stroke="#DCBD85" stroke-width="3"/>
+  <circle cx="1020" cy="180" r="54" fill="none" stroke="#DCBD85" stroke-width="1.5" stroke-dasharray="5 8" opacity="0.75"/>
+  <path d="M995 210 V185 A25 25 0 0 1 1045 185 V210" fill="none" stroke="#DCBD85" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M995 210 H1045" stroke="#C9A664" stroke-width="3" stroke-linecap="round"/>
+</svg>

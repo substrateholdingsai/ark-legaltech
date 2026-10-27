@@ -1,0 +1,77 @@
+{
+  "schema": "bobs.asset-manifest.v1",
+  "system": "AUREUS",
+  "slug": "legaltech-aureus",
+  "kind": "vector-forge",
+  "stdlib_only": true,
+  "noise_seed": 3506,
+  "files": [
+    {
+      "path": "favicon.svg",
+      "bytes": 840,
+      "kb": 0.82
+    },
+    {
+      "path": "logo-lockup.svg",
+      "bytes": 1311,
+      "kb": 1.28
+    },
+    {
+      "path": "pattern-tessera.svg",
+      "bytes": 907,
+      "kb": 0.89
+    },
+    {
+      "path": "texture-basalt.svg",
+      "bytes": 826,
+      "kb": 0.81
+    },
+    {
+      "path": "texture-parchment.svg",
+      "bytes": 832,
+      "kb": 0.81
+    },
+    {
+      "path": "monogram-aureus.svg",
+      "bytes": 907,
+      "kb": 0.89
+    },
+    {
+      "path": "seal-state.svg",
+      "bytes": 908,
+      "kb": 0.89
+    },
+    {
+      "path": "arch-divider.svg",
+      "bytes": 634,
+      "kb": 0.62
+    },
+    {
+      "path": "keystone-node.svg",
+      "bytes": 562,
+      "kb": 0.55
+    },
+    {
+      "path": "via-progress.svg",
+      "bytes": 752,
+      "kb": 0.73
+    },
+    {
+      "path": "arc-mask.svg",
+      "bytes": 582,
+      "kb": 0.57
+    },
+    {
+      "path": "og-image.svg",
+      "bytes": 2517,
+      "kb": 2.46
+    },
+    {
+      "path": "sprite-gremial.svg",
+      "bytes": 2239,
+      "kb": 2.19
+    }
+  ],
+  "total_bytes": 13817,
+  "total_kb": 13.49
+}

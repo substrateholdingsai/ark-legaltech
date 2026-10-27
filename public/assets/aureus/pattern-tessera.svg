@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <g fill="#C9A664" opacity="0.065">
+    <path d="M8 5 L11 8 L8 11 L5 8 Z"/>
+    <path d="M24 5 L27 8 L24 11 L21 8 Z"/>
+    <path d="M40 5 L43 8 L40 11 L37 8 Z"/>
+    <path d="M56 5 L59 8 L56 11 L53 8 Z"/>
+    <path d="M8 21 L11 24 L8 27 L5 24 Z"/>
+    <path d="M24 21 L27 24 L24 27 L21 24 Z"/>
+    <path d="M40 21 L43 24 L40 27 L37 24 Z"/>
+    <path d="M56 21 L59 24 L56 27 L53 24 Z"/>
+    <path d="M8 37 L11 40 L8 43 L5 40 Z"/>
+    <path d="M24 37 L27 40 L24 43 L21 40 Z"/>
+    <path d="M40 37 L43 40 L40 43 L37 40 Z"/>
+    <path d="M56 37 L59 40 L56 43 L53 40 Z"/>
+    <path d="M8 53 L11 56 L8 59 L5 56 Z"/>
+    <path d="M24 53 L27 56 L24 59 L21 56 Z"/>
+    <path d="M40 53 L43 56 L40 59 L37 56 Z"/>
+    <path d="M56 53 L59 56 L56 59 L53 56 Z"/>
+  </g>
+</svg>

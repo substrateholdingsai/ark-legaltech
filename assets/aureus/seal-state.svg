@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="sealGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#DCBD85"/>
+      <stop offset="1" stop-color="#C9A664"/>
+    </linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="54" fill="#8B4A5A" stroke="url(#sealGold)" stroke-width="3"/>
+  <circle cx="64" cy="64" r="44" fill="none" stroke="#DCBD85" stroke-width="1.5" stroke-dasharray="4 7" opacity="0.8"/>
+  <g transform="translate(32 32)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 46 V30 A14 14 0 0 1 46 30 V46" stroke="#DCBD85" stroke-width="4"/>
+    <rect x="28" y="22" width="8" height="8" rx="2" fill="#100F0D" stroke="#DCBD85" stroke-width="1.5"/>
+    <path d="M22 46 H42" stroke="#C9A664" stroke-width="3"/>
+  </g>
+</svg>
