@@ -17,10 +17,10 @@ binding = "AI"
 [[d1_databases]]
 binding = "DB"
 database_name = "ark-legaltech-db"
-database_id = "TBD_POR_CREAR"
+database_id = "057944c8-15a5-45c4-9c97-31ba63603124"
 [[kv_namespaces]]
 binding = "CACHE"
-id = "TBD_CACHE"
+id = "18691b03e22042058eee5c4115a1b8b5"
 [[kv_namespaces]]
 binding = "SESSION"
-id = "TBD_SESSION"
+id = "45fbe6f33097431c9cc37b8a7053fde5"
