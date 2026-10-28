@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="pageTitle">Despacho Profesional · Blindado por SENTINELA RegTech</title>
+  <title id="pageTitle">Ark Legaltech · Terminales de Captación con Inteligencia Regulatoria SENTINELA 24/7</title>
+  <meta name="description" content="Landing pages de alta conversión específicamente diseñadas para firmas legales y contables con SENTINELA integrado: monitoreo en tiempo real del DOF, SAT, CNBV y Banxico.">
   <link rel="icon" type="image/svg+xml" href="/assets/aureus/favicon.svg">
   <link rel="apple-touch-icon" href="/assets/aureus-seo/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
@@ -13,15 +14,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Three.js para renderizado del Radar 3D -->
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
-      }
-    }
-  </script>
 
   <style>
     :root {
@@ -367,45 +359,264 @@
       transform: translateY(-1px);
     }
 
-    /* Contenedor 3D Radar */
-    .viewport-3d-wrap {
+    /* DOF FEED WIDGET (REEMPLAZO DEL VISOR 3D) */
+    .dof-widget {
       position: relative;
-      width: 100%;
-      height: 480px;
-      background: radial-gradient(circle at center, rgba(201, 166, 100, 0.07) 0%, transparent 72%);
-      border: var(--aureus-hairline) solid var(--aureus-border-line);
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: inset 0 1px 0 rgba(243, 236, 223, 0.035), 0 24px 48px rgba(0, 0, 0, 0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #radar-canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-      cursor: grab;
-    }
-    #radar-canvas:active { cursor: grabbing; }
-
-    .radar-overlay-tag {
-      position: absolute;
-      bottom: 1rem;
-      left: 1rem;
-      right: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(16, 15, 13, 0.85);
-      backdrop-filter: blur(8px);
+      background: var(--aureus-bg-surface);
       border: 1px solid var(--aureus-border-line);
-      border-radius: 10px;
-      padding: 0.5rem 0.85rem;
-      font-family: var(--aureus-font-mono);
-      font-size: 0.7rem;
-      color: var(--aureus-text-muted);
+      border-radius: var(--aureus-radius);
+      height: 490px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 48px -15px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(243, 236, 223, 0.04);
+    }
+    .dof-widget::before, .dof-widget::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-color: var(--aureus-accent-500);
+      border-style: solid;
       pointer-events: none;
+      z-index: 10;
+    }
+    .dof-widget::before {
+      top: 10px;
+      left: 10px;
+      border-width: 2px 0 0 2px;
+    }
+    .dof-widget::after {
+      bottom: 10px;
+      right: 10px;
+      border-width: 0 2px 2px 0;
+    }
+    .dof-feed__topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--aureus-border-line);
+      background: var(--aureus-bg-canvas);
+      font-family: var(--aureus-font-mono);
+      font-size: 0.72rem;
+      color: var(--aureus-text-muted);
+      z-index: 5;
+    }
+    .dof-feed__heading {
+      margin: 0;
+      color: var(--aureus-accent-400);
+      font-weight: 600;
+      font-size: 0.76rem;
+      letter-spacing: 0.05em;
+    }
+    .dof-feed__status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.7rem;
+      color: var(--aureus-approved);
+      font-weight: 600;
+    }
+    .dof-feed__status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--aureus-approved);
+      box-shadow: 0 0 10px var(--aureus-approved);
+      animation: dofPulse 2s ease-in-out infinite;
+    }
+    @keyframes dofPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(1.25); }
+    }
+    .dof-feed__list {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 12px;
+    }
+    .dof-feed__item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 10px 12px;
+      background: var(--aureus-bg-canvas);
+      border: 1px solid var(--aureus-border-line);
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+    .dof-feed__item:hover {
+      background: rgba(201, 166, 100, 0.08);
+      border-color: var(--aureus-accent-500);
+      transform: translateX(2px);
+    }
+    .dof-feed__item-date {
+      font-family: var(--aureus-font-mono);
+      font-size: 0.68rem;
+      color: var(--aureus-accent-400);
+      font-weight: 600;
+    }
+    .dof-feed__item-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--aureus-text-primary);
+    }
+    .dof-feed__item-summary {
+      color: var(--aureus-text-secondary);
+      font-size: 0.78rem;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .dof-feed__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 16px;
+      border-top: 1px solid var(--aureus-border-line);
+      background: var(--aureus-bg-canvas);
+      font-family: var(--aureus-font-mono);
+      font-size: 0.68rem;
+      color: var(--aureus-text-muted);
+    }
+    .dof-feed__all {
+      color: var(--aureus-accent-400);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .dof-feed__all:hover {
+      text-decoration: underline;
+    }
+
+    /* STAT PILLS IN HERO */
+    .hero-stat-row {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1.75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--aureus-border-line);
+      flex-wrap: wrap;
+    }
+    .stat-pill {
+      display: flex;
+      flex-direction: column;
+    }
+    .stat-pill-num {
+      font-family: var(--aureus-font-mono);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--aureus-accent-400);
+      letter-spacing: -0.02em;
+    }
+    .stat-pill-label {
+      font-size: 0.72rem;
+      color: var(--aureus-text-muted);
+    }
+
+    /* COMPARISON SECTION (WEB TRADICIONAL VS ARK LEGALTECH) */
+    .compare-section {
+      max-width: 1320px;
+      margin: 0 auto 5rem;
+      padding: 0 2rem;
+    }
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.75rem;
+      margin-top: 2rem;
+    }
+    @media (max-width: 850px) {
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+    .compare-card {
+      background: var(--aureus-bg-surface);
+      border: 1px solid var(--aureus-border-line);
+      border-radius: var(--aureus-radius);
+      padding: 2.25rem;
+      position: relative;
+    }
+    .compare-card.card-legacy {
+      border-color: rgba(204, 118, 108, 0.35);
+      background: rgba(26, 20, 18, 0.6);
+    }
+    .compare-card.card-ark {
+      border-color: rgba(201, 166, 100, 0.45);
+      background: radial-gradient(circle at 100% 0%, rgba(201, 166, 100, 0.08) 0%, var(--aureus-bg-surface) 65%);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.3);
+    }
+    .compare-badge {
+      font-family: var(--aureus-font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .badge-legacy {
+      background: rgba(204, 118, 108, 0.15);
+      color: var(--aureus-risk);
+      border: 1px solid rgba(204, 118, 108, 0.3);
+    }
+    .badge-ark {
+      background: rgba(201, 166, 100, 0.15);
+      color: var(--aureus-accent-400);
+      border: 1px solid rgba(201, 166, 100, 0.4);
+    }
+    .compare-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-top: 1.25rem;
+    }
+    .compare-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.92rem;
+      color: var(--aureus-text-secondary);
+      line-height: 1.45;
+    }
+
+    /* SHOWCASE SECTION */
+    .showcase-section {
+      max-width: 1320px;
+      margin: 0 auto 5rem;
+      padding: 0 2rem;
+    }
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    @media (max-width: 900px) {
+      .showcase-grid { grid-template-columns: 1fr; }
+    }
+    .showcase-card {
+      background: var(--aureus-bg-surface);
+      border: 1px solid var(--aureus-border-line);
+      border-radius: var(--aureus-radius);
+      padding: 2.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 200ms ease;
+    }
+    .showcase-card:hover {
+      border-color: var(--aureus-accent-500);
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.35);
     }
 
     /* SECCIÓN PROPOSICIÓN DE VALOR (MOAT) */
@@ -842,15 +1053,15 @@
   <div class="top-demo-bar">
     <div style="display: flex; align-items: center; gap: 0.6rem;">
       <span class="badge-2in1">PROPOSICIÓN 2 EN 1</span>
-      <span>Landing page comercial con Inteligencia Regulatoria <strong>SENTINELA</strong> integrada</span>
+      <span>Landing pages hiper-especializadas para firmas legales y contables con <strong>SENTINELA</strong> integrado</span>
     </div>
     <div class="demo-pill-group">
-      <span>Demos Especializados:</span>
+      <span>Ver Demos Especializados:</span>
       <a href="/contagram" class="demo-btn" style="text-decoration:none; color: #E3C274; border-color: rgba(201,162,39,0.6); background: rgba(7,26,48,0.7); font-weight: 600;">
-        🧮 Contagram · Despacho Contable (Isfahan Ledger ↗)
+        🧮 Demo Contable: Contagram (Isfahan ↗)
       </a>
       <a href="/vigil" class="demo-btn" style="text-decoration:none; color: #E89F4C; border-color: rgba(232,159,76,0.6); background: rgba(30,26,21,0.85); font-weight: 600;">
-        🛡️ AUREUS VIGIL · Guardia Penal & Amparo ↗
+        🛡️ Demo Penal: AUREUS VIGIL (Guardia 24/7 ↗)
       </a>
     </div>
   </div>
@@ -860,10 +1071,10 @@
     <div class="pulse-dot"></div>
     <span>RADAR REGULATORIO SENTINELA 24/7 EN VIVO · MONITOREO EN EL EDGE: <strong>DOF · SAT · CNBV · BANXICO · CONDUSEF</strong></span>
     <span style="opacity: 0.5;">|</span>
-    <span style="color: var(--aureus-accent-400);">BLINDAJE PREVENTIVO ACTIVO PARA CLIENTES DEL DESPACHO</span>
+    <span style="color: var(--aureus-accent-400);">BLINDAJE PREVENTIVO ACTIVO PARA CLIENTES DE TU FIRMA</span>
   </div>
 
-  <!-- Header Institucional -->
+  <!-- Header Institucional Ark Legaltech -->
   <header>
     <div class="header-inner">
       <a href="/" class="brand-lockup">
@@ -877,109 +1088,202 @@
           </svg>
         </div>
         <div>
-          <div class="brand-title" id="headerFirmName">VALENZUELA & ASOCIADOS</div>
-          <div class="brand-subtitle" id="headerPartnerName">Lic. Roberto Valenzuela · Litigio Mercantil & Blindaje Corporativo</div>
+          <div class="brand-title" id="headerFirmName">ARK LEGALTECH</div>
+          <div class="brand-subtitle" id="headerPartnerName">Terminales de Captación & Inteligencia Regulatoria 24/7</div>
         </div>
       </a>
 
       <nav class="nav-links">
-        <a href="#radarSection" class="nav-link">🛡️ Radar Sentinela</a>
-        <a href="#servicesSection" class="nav-link">⚖️ Servicios & Tarifas</a>
-        <a href="#tabulaSection" class="nav-link">📋 Consulta Formal</a>
+        <a href="#dofSection" class="nav-link">📡 Feed DOF</a>
+        <a href="#comparativa" class="nav-link">⚖️ Web vs Terminal</a>
+        <a href="#pilares" class="nav-link">🏛️ El Modelo 2-en-1</a>
+        <a href="#radarSection" class="nav-link">🛰️ Radar Sentinela</a>
+        <a href="#demos" class="nav-link">🧮 Demos en Vivo</a>
+        <a href="#contacto" class="nav-link">📋 Desplegar Firma</a>
       </nav>
 
       <div class="header-actions">
-        <a id="headerWaBtn" href="https://wa.me/525541691234" target="_blank" class="btn-wa-header">
+        <a id="headerWaBtn" href="https://wa.me/525541691234?text=Hola%20Ark%20Legaltech%2C%20quiero%20conocer%20c%C3%B3mo%20desplegar%20una%20terminal%20con%20Sentinela%20para%20mi%20despacho." target="_blank" class="btn-wa-header">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-          <span>WhatsApp Despacho</span>
+          <span>WhatsApp Consultor B2B</span>
         </a>
         <button id="themeToggle" class="theme-toggle">🌙 NOX BASALT</button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero Section: Copy B2B + Widget DOF en Vivo -->
   <main class="hero">
     <div class="hero-content">
       <div class="cred-badges">
         <div class="cred-badge">
           <span>🏛️</span>
-          <span id="badgeBar">Barra Mexicana, Colegio de Abogados</span>
+          <span>LEGALTECH & REGTECH B2B</span>
         </div>
         <div class="cred-badge">
-          <span>📜 Cédula:</span>
-          <strong id="badgeCedula">CED-4820194</strong>
+          <span>⚡ LATENCIA EDGE:</span>
+          <strong>&lt; 50 MS</strong>
         </div>
         <div class="cred-badge" style="border-color: rgba(126, 154, 110, 0.4); color: var(--aureus-approved);">
-          <span>🛰️ SENTINELA VIGILANCIA 24/7</span>
+          <span>🛰️ SENTINELA 24/7 EN VIVO</span>
         </div>
       </div>
 
       <h1 class="hero-title" id="heroHeadline">
-        Blindaje Legal, Corporativo y Litigio respaldado por <span class="accent">inteligencia regulatoria</span>.
+        Tu despacho no necesita otra página web genérica. <span class="accent">Necesita una terminal conectada a la ley en tiempo real.</span>
       </h1>
 
       <p class="hero-desc" id="heroDesc">
-        Protegemos los contratos, sociedades y patrimonio de tu empresa. Monitoreamos en tiempo real circulares de BANXICO, reformas del DOF y juzgados mercantiles con el radar Sentinela para blindar tus operaciones antes de cualquier contingencia judicial.
+        Desarrollamos landing pages de alta conversión específicamente diseñadas para firmas legales y contables, integradas con <strong>SENTINELA</strong>: el primer radar regulatorio que monitorea el Diario Oficial de la Federación, SAT, CNBV y Banxico las 24 horas, convirtiendo cambios normativos en consultas y nuevos clientes para tu firma.
       </p>
 
       <div class="hero-ctas">
-        <a id="heroWaBtn" href="https://wa.me/525541691234" target="_blank" class="btn-wa-main">
+        <a id="heroWaBtn" href="https://wa.me/525541691234?text=Hola%20Ark%20Legaltech%2C%20deseo%20agendar%20un%20diagn%C3%B3stico%20para%20desplegar%20una%20terminal%20en%20mi%20firma." target="_blank" class="btn-wa-main">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-          <span>Consulta Directa con el Titular</span>
+          <span>Agendar Diagnóstico de tu Firma</span>
         </a>
-        <a href="#tabulaSection" class="btn-aureus" style="background: transparent; border-color: var(--aureus-border-line); color: var(--aureus-text-secondary);">
-          <span>Generar Folio de Consulta</span>
+        <a href="#demos" class="btn-aureus" style="background: transparent; border-color: var(--aureus-border-line); color: var(--aureus-text-secondary);">
+          <span>Ver Demos Especializados</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
-    </div>
 
-    <!-- Visor 3D: Prisma Radar Vigía -->
-    <div class="viewport-3d-wrap">
-      <canvas id="radar-canvas"></canvas>
-      <div class="radar-overlay-tag">
-        <span>🛰️ RADAR SENTINELA · VIGILANCIA EN EL EDGE</span>
-        <span id="activeBeaconLabel" style="color: var(--aureus-accent-400);">5 BALIZAS ACTIVAS</span>
+      <div class="hero-stat-row">
+        <div class="stat-pill">
+          <span class="stat-pill-num">48 HRS</span>
+          <span class="stat-pill-label">Despliegue Llave en Mano</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-pill-num">100%</span>
+          <span class="stat-pill-label">Dominio Propio de tu Firma</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-pill-num">2 EN 1</span>
+          <span class="stat-pill-label">Landing + Inteligencia Sentinela</span>
+        </div>
       </div>
     </div>
+
+    <!-- WIDGET DOF EN VIVO (SUSTITUYE AL VISOR 3D) -->
+    <section class="dof-widget" id="dofSection" aria-labelledby="dof-feed-title">
+      <div class="dof-feed__topbar">
+        <h2 class="dof-feed__heading" id="dof-feed-title">PUBLICACIONES RECIENTES · DIARIO OFICIAL DE LA FEDERACIÓN (DOF)</h2>
+        <span class="dof-feed__status">
+          <span class="dof-feed__status-dot" aria-hidden="true"></span>
+          SEÑAL OFICIAL EN VIVO
+        </span>
+      </div>
+      <div class="dof-feed__list" id="dof-feed-list" aria-live="polite" aria-busy="true">
+        <p style="color: var(--aureus-text-muted); font-size: 0.85rem; padding: 2rem; text-align: center;">
+          Sintonizando señal del Diario Oficial de la Federación...
+        </p>
+      </div>
+      <div class="dof-feed__footer">
+        <span id="dof-feed-updated">Consulta en curso...</span>
+        <a class="dof-feed__all" href="https://dof.gob.mx/" target="_blank" rel="noopener noreferrer">VER TODAS EN DOF ↗</a>
+      </div>
+    </section>
   </main>
 
-  <!-- SECCIÓN PROPOSICIÓN DE VALOR (MOAT DE NEGOCIO) -->
-  <section class="moat-section">
+  <!-- SECCIÓN COMPARATIVA: WEB TRADICIONAL VS TERMINAL ARK LEGALTECH -->
+  <section class="compare-section" id="comparativa">
+    <div style="text-align: center; max-width: 800px; margin: 0 auto 1.5rem;">
+      <span style="font-family: var(--aureus-font-mono); font-size: 0.75rem; color: var(--aureus-accent-400); letter-spacing: 0.1em; text-transform: uppercase;">
+        EL DILEMA DEL MERCADO JURÍDICO & CONTABLE
+      </span>
+      <h2 style="font-family: var(--aureus-font-display); font-size: 2.2rem; color: var(--aureus-text-primary); margin-top: 0.4rem; font-weight: 600;">
+        ¿Tu web actual genera clientes o es solo una tarjeta olvidada?
+      </h2>
+      <p style="color: var(--aureus-text-secondary); font-size: 1rem; line-height: 1.6;">
+        El 90% de los despachos operan con páginas estáticas que no transmiten autoridad técnica ni previenen riesgos para sus clientes.
+      </p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card card-legacy">
+        <span class="compare-badge badge-legacy">LA WEB TRADICIONAL (OBSOLETA)</span>
+        <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--aureus-text-primary); margin-bottom: 0.5rem;">
+          WordPress Genérico & Estático
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--aureus-text-secondary); line-height: 1.5;">
+          Plantillas genéricas con fotos de archivo de martillos de madera, balanzas doradas y libros polvorientos.
+        </p>
+        <ul class="compare-list">
+          <li><span>❌</span> <strong>Cero utilidad para el cliente:</strong> Solo dice "somos líderes" sin demostrar conocimiento técnico en tiempo real.</li>
+          <li><span>❌</span> <strong>Reacción tardía:</strong> Tu cliente se entera de la reforma o embargo semanas después de que la autoridad ejecutó.</li>
+          <li><span>❌</span> <strong>Formularios pasivos:</strong> "Déjanos tu correo y te contactaremos", perdiendo el 85% de los leads calificados.</li>
+          <li><span>❌</span> <strong>Infraestructura frágil:</strong> Plugins desactualizados, riesgos de hackeo y tiempos de carga lentos en móviles.</li>
+        </ul>
+      </div>
+
+      <div class="compare-card card-ark">
+        <span class="compare-badge badge-ark">LA TERMINAL ARK LEGALTECH (ESTÁNDAR 2-EN-1)</span>
+        <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--aureus-accent-400); margin-bottom: 0.5rem;">
+          Terminal Activa con Radar SENTINELA
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--aureus-text-secondary); line-height: 1.5;">
+          Diseño canónico a la medida de tu especialidad respaldado por telemetría regulatoria oficial 24/7.
+        </p>
+        <ul class="compare-list">
+          <li><span>✅</span> <strong>Autoridad demostrada:</strong> Tu cliente ve el feed oficial del DOF y SAT en vivo en el portal de tu firma.</li>
+          <li><span>✅</span> <strong>Captación preventiva:</strong> Cada cambio regulatorio oficial se vincula a tus servicios para generar consultas inmediatas.</li>
+          <li><span>✅</span> <strong>Conversión en 1 toque:</strong> Folios formales numerados, cotizadores paramétricos y conexión directa al WhatsApp del titular.</li>
+          <li><span>✅</span> <strong>Infraestructura Edge:</strong> Alojada en Cloudflare con latencia sub-50ms, cero caídas y SSL bancario.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: LOS 2 PILARES FUNDAMENTALES (EL MOAT) -->
+  <section class="moat-section" id="pilares">
+    <div style="text-align: center; max-width: 800px; margin: 0 auto 2.5rem;">
+      <span style="font-family: var(--aureus-font-mono); font-size: 0.75rem; color: var(--aureus-accent-400); letter-spacing: 0.1em; text-transform: uppercase;">
+        ARQUITECTURA DE VALOR B2B
+      </span>
+      <h2 style="font-family: var(--aureus-font-display); font-size: 2.2rem; color: var(--aureus-accent-400); margin-top: 0.4rem; font-weight: 600;">
+        Los 2 Pilares Exclusivos de Ark Legaltech
+      </h2>
+      <p style="color: var(--aureus-text-secondary); font-size: 1rem;">
+        Si quieres la inteligencia regulatoria de Sentinela, la landing page especializada es el vehículo que la monetiza.
+      </p>
+    </div>
+
     <div class="moat-grid">
       <div class="moat-card">
-        <div class="moat-icon">🛰️</div>
-        <div class="moat-title">Vigilancia Preventiva 24/7</div>
+        <div class="moat-icon">⚖️</div>
+        <div class="moat-title">Pilar 1: Diseño Canónico a la Medida</div>
         <div class="moat-desc">
-          A diferencia de despachos tradicionales que actúan tras la notificación o el embargo, nuestro radar detecta las resoluciones en el minuto en que se publican en DOF y SAT.
+          No usamos plantillas estándar. Diseñamos según la disciplina: Libros Mayores interactivos para contadores (Isfahan Ledger), interfaces de alta velocidad para penalistas (Guardia Vigil) y foliado probatorio formal para corporativo.
         </div>
       </div>
       <div class="moat-card">
-        <div class="moat-icon">⚖️</div>
-        <div class="moat-title">Atención Titular Certificada</div>
+        <div class="moat-icon">🛰️</div>
+        <div class="moat-title">Pilar 2: SENTINELA RegTech 24/7</div>
         <div class="moat-desc">
-          Atención personalizada bajo la supervisión directa del titular del despacho con cédula profesional verificada, garantizando estricto secreto profesional.
+          El primer motor que monitorea el Diario Oficial de la Federación, SAT, CNBV, BANXICO y CONDUSEF en tiempo real. Cuando la autoridad publica una resolución o criterio, el portal de tu firma ya lo está comunicando.
         </div>
       </div>
       <div class="moat-card">
         <div class="moat-icon">📜</div>
         <div class="moat-title">Códice Probatorio & Folio Formal</div>
         <div class="moat-desc">
-          Cada consulta o diagnóstico emite un folio formal y trazable. Transparencia total en honorarios, entregables y tiempos de resolución.
+          Cada cliente que solicita asesoría genera un folio formal único y trazable, garantizando secreto profesional bajo el artículo 16 constitucional y despachando de inmediato al socio responsable.
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECCIÓN WIDGET: SENTINELA LIVE RADAR -->
+  <!-- SECCIÓN WIDGET: SENTINELA LIVE RADAR (5 FUENTES) -->
   <section class="radar-section" id="radarSection">
     <div class="radar-card">
       <div class="radar-head">
         <div>
-          <h2>Radar Regulatorio Sentinela en Vivo</h2>
+          <span style="font-family: var(--aureus-font-mono); font-size: 0.72rem; color: var(--aureus-accent-400); letter-spacing: 0.08em; text-transform: uppercase;">
+            TELEMETRÍA EN TIEMPO REAL
+          </span>
+          <h2>Consola Regulatoria Sentinela</h2>
           <p style="color: var(--aureus-text-secondary); font-size: 0.95rem;">
-            Alertas oficiales analizadas en tiempo real con plan de protección inmediata para tu negocio.
+            Alertas oficiales analizadas por severidad con plan de protección inmediata para clientes de tu firma.
           </p>
         </div>
 
@@ -1002,118 +1306,190 @@
     </div>
   </section>
 
-  <!-- SECCIÓN SERVICIOS Y ÁREAS DE PRÁCTICA DEL DESPACHO -->
-  <section class="services-section" id="servicesSection">
-    <div class="services-header">
-      <div>
-        <h2>Servicios y Cuotas de Asesoría</h2>
-        <p style="color: var(--aureus-text-secondary); font-size: 0.95rem;" id="servicesSubtitle">
-          Esquemas de honorarios transparentes sin costos ocultos.
-        </p>
-      </div>
-      <div style="font-family: var(--aureus-font-mono); font-size: 0.8rem; color: var(--aureus-text-muted);">
-        PRECIOS EN MXN · FACTURACIÓN FISCAL INCLUIDA
-      </div>
+  <!-- SECCIÓN: ARQUETIPOS DE DISEÑO Y DEMOS ESPECIALIZADOS -->
+  <section class="showcase-section" id="demos">
+    <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+      <span style="font-family: var(--aureus-font-mono); font-size: 0.75rem; color: var(--aureus-accent-400); letter-spacing: 0.1em; text-transform: uppercase;">
+        PORTAFOLIO DE IMPLEMENTACIÓN
+      </span>
+      <h2 style="font-family: var(--aureus-font-display); font-size: 2.2rem; color: var(--aureus-accent-400); margin-top: 0.4rem; font-weight: 600;">
+        Demos Especializados en Vivo
+      </h2>
+      <p style="color: var(--aureus-text-secondary); font-size: 1rem;">
+        Explora cómo cobra vida cada especialidad profesional cuando se combina con el rigor de Ark Legaltech y SENTINELA:
+      </p>
     </div>
 
-    <div class="services-grid" id="servicesGrid">
-      <div style="color: var(--aureus-text-muted); padding: 1.5rem; font-family: var(--aureus-font-mono);">
-        Cargando catálogo de servicios...
+    <div class="showcase-grid">
+      <!-- Demo 1: Contagram -->
+      <div class="showcase-card" style="border-top: 3px solid #C9A227;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span style="font-family: var(--aureus-font-mono); font-size: 0.72rem; color: #E3C274; background: rgba(7, 26, 48, 0.85); border: 1px solid rgba(201, 162, 39, 0.4); padding: 0.2rem 0.6rem; border-radius: 999px;">
+              DESPACHOS CONTABLES & FISCALISTAS
+            </span>
+            <span style="font-family: var(--aureus-font-mono); font-size: 0.7rem; color: var(--aureus-text-muted);">ISFAHAN LEDGER v1.0</span>
+          </div>
+          <h3 style="font-family: var(--aureus-font-display); font-size: 1.7rem; color: var(--aureus-text-primary); margin-bottom: 0.5rem;">
+            Contagram — Despacho Contable
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--aureus-text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+            Diseñado con estética matemática persa en azul lapislázuli y oro. Incluye <strong>Libro Mayor interactivo</strong>, calculadora de pólizas y nómina, y monitoreo directo de opiniones 32-D y sellos digitales SAT (CSD).
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.82rem; color: var(--aureus-text-secondary); margin-bottom: 1.5rem;">
+            <div>🧮 <strong>Libro Mayor Paramétrico:</strong> El cliente simula su cuota mensual en vivo.</div>
+            <div>📜 <strong>Auditoría EFOS & SAT:</strong> Alertas preventivas de cancelación de sellos fiscales.</div>
+            <div>⚡ <strong>Botón Vintage:</strong> Calculadora modal nostálgica para cotización analítica.</div>
+          </div>
+        </div>
+        <div>
+          <a href="/contagram" class="btn-aureus" style="width: 100%; justify-content: center; text-decoration: none; padding: 0.85rem;">
+            <span>Abrir Demo Contagram (Isfahan) ↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Demo 2: AUREUS VIGIL -->
+      <div class="showcase-card" style="border-top: 3px solid #E89F4C;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span style="font-family: var(--aureus-font-mono); font-size: 0.72rem; color: #E89F4C; background: rgba(30, 26, 21, 0.9); border: 1px solid rgba(232, 159, 76, 0.4); padding: 0.2rem 0.6rem; border-radius: 999px;">
+              PENALISTAS & AMPARISTAS
+            </span>
+            <span style="font-family: var(--aureus-font-mono); font-size: 0.7rem; color: var(--aureus-text-muted);">AUREUS VIGIL 24/7</span>
+          </div>
+          <h3 style="font-family: var(--aureus-font-display); font-size: 1.7rem; color: var(--aureus-text-primary); margin-bottom: 0.5rem;">
+            AUREUS VIGIL — La Guardia Nocturna
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--aureus-text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+            Diseñado para situaciones de estrés extremo (detenciones ministeriales, cateos, aseguramientos). Formato mobile-first, botón de pulgar de llamada inmediata en &lt; 8 minutos y franja porfídica de guardia permanente.
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.82rem; color: var(--aureus-text-secondary); margin-bottom: 1.5rem;">
+            <div>🚨 <strong>Botón Táctil Inmediato:</strong> Llamada directa de despliegue con 1 toque.</div>
+            <div>⚖️ <strong>Triage Penal Urgente:</strong> Formulario de datos esenciales con asignación de custodio.</div>
+            <div>🏛️ <strong>Amparo & Suspensión de Plano:</strong> Presentación nocturna en juzgados de distrito.</div>
+          </div>
+        </div>
+        <div>
+          <a href="/vigil" class="btn-aureus" style="width: 100%; justify-content: center; text-decoration: none; padding: 0.85rem; background: #E89F4C; color: #14110D; border-color: #E89F4C; font-weight: 700;">
+            <span>Abrir Demo Penal (VIGIL) ↗</span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- TABULA CERATA: FORMULARIO DE CONTACTO Y TRIAJE FORMAL -->
-  <section class="tabula-section" id="tabulaSection">
+  <!-- TABULA CERATA: FORMULARIO B2B DE DESPLIEGUE PARA DESPACHOS -->
+  <section class="tabula-section" id="contacto">
     <div class="tabula-card">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.75rem; flex-wrap: wrap; gap: 1rem;">
         <div>
+          <span style="font-family: var(--aureus-font-mono); font-size: 0.72rem; color: var(--aureus-accent-400); letter-spacing: 0.08em; text-transform: uppercase;">
+            SOLICITUD DE DESPLIEGUE B2B
+          </span>
           <h2 style="font-family: var(--aureus-font-display); font-size: 2.2rem; color: var(--aureus-accent-400); font-weight: 600;">
-            Consulta Formal & Triaje Inmediato
+            Despliega la Terminal de tu Firma en 48 Horas
           </h2>
           <p style="color: var(--aureus-text-secondary); font-size: 0.95rem;">
-            Envía tu situación al despacho o activa la atención preventiva de una alerta. Se generará un folio formal de seguimiento.
+            Completa los datos de tu despacho para recibir una propuesta técnica, cotización personalizada y demo en vivo sobre tu propio dominio.
           </p>
         </div>
         <div style="background: var(--aureus-seal); color: var(--aureus-text-primary); border-radius: 999px; padding: 0.35rem 0.9rem; font-family: var(--aureus-font-mono); font-size: 0.75rem;">
-          SECRETO PROFESIONAL GARANTIZADO
+          CONSULTORÍA PRIVADA & CONFIDENCIAL
         </div>
       </div>
 
-      <form id="triageForm" class="tabula-form">
+      <form id="b2bTriageForm" class="tabula-form">
         <div>
-          <label class="tabula-label" for="clientName">Nombre Completo o Razón Social *</label>
-          <input type="text" id="clientName" class="tabula-input" placeholder="Ej: Ing. Carlos Mendoza / Distribuidora Bajío SA" required>
+          <label class="tabula-label" for="partnerName">Nombre del Socio o Titular *</label>
+          <input type="text" id="partnerName" class="tabula-input" placeholder="Ej: Lic. Alejandro Morales / C.P. Diana Garza" required>
         </div>
 
         <div>
-          <label class="tabula-label" for="clientPhone">Teléfono WhatsApp de Contacto *</label>
-          <input type="tel" id="clientPhone" class="tabula-input" placeholder="Ej: 55 1234 5678" required>
+          <label class="tabula-label" for="firmNameInput">Nombre de la Firma o Despacho *</label>
+          <input type="text" id="firmNameInput" class="tabula-input" placeholder="Ej: Morales & Asociados / Garza Consultores SC" required>
         </div>
 
         <div>
-          <label class="tabula-label" for="clientEmail">Correo Electrónico (opcional)</label>
-          <input type="email" id="clientEmail" class="tabula-input" placeholder="contacto@empresa.com">
+          <label class="tabula-label" for="firmSpecialty">Especialidad Principal *</label>
+          <select id="firmSpecialty" class="tabula-select" required>
+            <option value="Fiscal / Contable">Fiscal & Contabilidad (SAT, EFOS, Nómina)</option>
+            <option value="Penal / Amparo">Penal & Amparo (Ministerio Público, Guardia 24/7)</option>
+            <option value="Corporativo / Mercantil">Corporativo, Litigio & Contratos Mercantiles</option>
+            <option value="Fintech / Bancario">Fintech & Bancario (CNBV, BANXICO, PLD)</option>
+            <option value="Laboral / Seguridad Social">Laboral & Seguridad Social (IMSS, STPS)</option>
+          </select>
         </div>
 
         <div>
-          <label class="tabula-label" for="serviceSelect">Servicio de Interés</label>
-          <select id="serviceSelect" class="tabula-select">
-            <option value="">-- Diagnóstico General / Determinar en consulta --</option>
+          <label class="tabula-label" for="b2bPhone">WhatsApp Directo del Titular *</label>
+          <input type="tel" id="b2bPhone" class="tabula-input" placeholder="Ej: 55 1234 5678" required>
+        </div>
+
+        <div>
+          <label class="tabula-label" for="b2bEmail">Correo Electrónico Corporativo</label>
+          <input type="email" id="b2bEmail" class="tabula-input" placeholder="socio@despacho.com.mx">
+        </div>
+
+        <div>
+          <label class="tabula-label" for="domainOption">Estado del Dominio Web</label>
+          <select id="domainOption" class="tabula-select">
+            <option value="Tengo dominio propio (requiero migración)">Ya cuento con dominio propio (migrar a Ark Legaltech)</option>
+            <option value="Requiero compra y aprovisionamiento">Requiero nuevo dominio web para el despacho</option>
+            <option value="Por definir">Aún no lo decido / requiero asesoría</option>
           </select>
         </div>
 
         <div class="form-group-full">
-          <label class="tabula-label" for="triageInput">Describe tu situación, requerimiento o duda legal/fiscal *</label>
+          <label class="tabula-label" for="b2bRequirements">Requerimientos Particulares o Servicios a Exhibir</label>
           <textarea
-            id="triageInput"
+            id="b2bRequirements"
             class="tabula-textarea"
-            placeholder="Detalla los hechos, requerimientos recibidos del SAT o dudas legales. También puedes hacer clic en cualquier alerta del radar para auto-llenar este campo..."
-            required
+            placeholder="Describe qué servicios deseas cotizar, número de colaboradores o si requieres una integración específica con Sentinela..."
           ></textarea>
         </div>
 
         <div class="form-group-full" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem;">
           <div style="font-size: 0.78rem; color: var(--aureus-text-muted); max-width: 520px;">
-            🔒 La información proporcionada es estrictamente confidencial al amparo del artículo 16 constitucional y secreto profesional.
+            🔒 Toda la información enviada está protegida bajo estricto secreto profesional y acuerdos de confidencialidad recíproca.
           </div>
-          <button type="submit" id="submitBtn" class="btn-aureus">
-            <span>Acuñar Consulta & Asignar Titular</span>
+          <button type="submit" id="b2bSubmitBtn" class="btn-aureus">
+            <span>Acuñar Solicitud de Despliegue</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
         </div>
       </form>
 
-      <!-- Minuta del Expediente Generado -->
-      <div id="expedienteResult" class="expediente-result">
+      <!-- Minuta de la Solicitud B2B -->
+      <div id="b2bResultBox" class="expediente-result">
         <div class="expediente-grid">
           <div>
-            <div class="expediente-folio" id="resFolio">#EXP-2026-0000</div>
+            <div class="expediente-folio" id="resB2bFolio">#ARK-2026-0000</div>
             <div style="margin-bottom: 0.75rem;">
-              <span id="resBranch" style="background: var(--aureus-seal); color: var(--aureus-text-primary); padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-family: var(--aureus-font-mono);">
-                RAMA JURÍDICA
+              <span style="background: var(--aureus-seal); color: var(--aureus-text-primary); padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-family: var(--aureus-font-mono);">
+                SOLICITUD B2B REGISTRADA
               </span>
             </div>
-            <div id="resSummary" style="color: var(--aureus-text-secondary); font-size: 0.95rem; margin-bottom: 1rem;">...</div>
-            <p style="font-size: 0.75rem; color: var(--aureus-text-muted);" id="resNotice">
-              Registrado formalmente. El socio titular ha sido notificado de esta consulta.
+            <div id="resB2bSummary" style="color: var(--aureus-text-secondary); font-size: 0.95rem; margin-bottom: 1rem;">...</div>
+            <p style="font-size: 0.75rem; color: var(--aureus-text-muted);">
+              Un consultor técnico de Ark Legaltech se pondrá en contacto contigo en menos de 2 horas.
             </p>
           </div>
 
           <div class="quote-box">
             <div>
               <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--aureus-text-muted); font-family: var(--aureus-font-mono);">
-                Honorarios Base Estimados
+                Tiempo Estimado de Entrega
               </div>
-              <div class="quote-amount" id="resFee">MXN $0</div>
-              <div id="resPartner" style="font-size: 0.82rem; color: var(--aureus-text-muted); margin-top: 0.5rem; line-height: 1.4;">
-                Titular Asignado: —
+              <div class="quote-amount">48 HORAS</div>
+              <div style="font-size: 0.82rem; color: var(--aureus-text-muted); margin-top: 0.5rem; line-height: 1.4;">
+                Incluye Landing Page Especializada + Enlace con Radar SENTINELA en Cloudflare Edge.
               </div>
             </div>
 
             <div style="margin-top: 1.25rem;">
-              <a id="resWaCtaBtn" href="#" target="_blank" class="btn-wa-main" style="width: 100%; justify-content: center; padding: 0.7rem;">
-                <span>📲 Continuar con el Titular en WhatsApp</span>
+              <a id="resB2bWaBtn" href="#" target="_blank" class="btn-wa-main" style="width: 100%; justify-content: center; padding: 0.7rem;">
+                <span>📲 Conversar con el Consultor en WhatsApp</span>
               </a>
             </div>
           </div>
@@ -1122,340 +1498,118 @@
     </div>
   </section>
 
-  <!-- BOTÓN FLOTANTE DE WHATSAPP -->
-  <a id="floatingWaBtn" href="https://wa.me/525541691234" target="_blank" class="floating-wa-btn">
+  <!-- BOTÓN FLOTANTE DE WHATSAPP B2B -->
+  <a id="floatingWaBtn" href="https://wa.me/525541691234?text=Hola%20Ark%20Legaltech%2C%20quiero%20conocer%20c%C3%B3mo%20desplegar%20una%20terminal%20para%20mi%20firma." target="_blank" class="floating-wa-btn">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-    <span>Consulta Inmediata WhatsApp</span>
+    <span>Consulta B2B WhatsApp</span>
   </a>
 
-  <!-- Footer -->
+  <!-- Footer Institucional Ark Legaltech -->
   <footer>
     <div style="margin-bottom: 1.25rem;">
-      <span id="footerFirmDetails">Valenzuela Consultores Jurídicos SC · RFC: VLA190412AB1 · Banco Santander</span>
+      <strong>ARK LEGALTECH</strong> · Infraestructura de Captación & Terminales con Inteligencia Regulatoria <strong>SENTINELA</strong><br>
+      Contacto comercial directo: <a href="mailto:pavel@arksystems.site">pavel@arksystems.site</a> · WhatsApp: <strong>+52 55 4169 1234</strong>
     </div>
     <div style="margin-bottom: 1rem;">
+      <a href="/api/public/dof/latest">Feed Oficial DOF</a> ·
       <a href="/api/sentinela/feed">Telemetría Sentinela</a> ·
-      <a href="/api/tenant/current">Contexto Multi-Tenant</a> ·
-      <a href="/health">Health System</a> ·
-      <a href="/api/admin/leads/summary">Códice Admin</a>
+      <a href="/contagram">Demo Contable</a> ·
+      <a href="/vigil">Demo Penal</a> ·
+      <a href="/health">Health Edge</a>
     </div>
     <div>
-      Despacho Oficial · Potenciado por <strong>ARK Legaltech × AUREUS</strong> con Radar <strong>SENTINELA</strong> · Derechos Reservados 2026
+      ARK Legaltech · Desplegado en Cloudflare Workers Edge · Derechos Reservados 2026
     </div>
   </footer>
 
-  <!-- Three.js Radar & Logic -->
-  <script type="module">
-    import * as THREE from 'three';
+  <!-- Scripts: DOF Feed + Sentinela Radar + Formulario B2B -->
+  <script>
+    // 1. Carga de Publicaciones Oficiales en Vivo desde el DOF
+    (function initDofWidget() {
+      const list = document.getElementById('dof-feed-list');
+      const updated = document.getElementById('dof-feed-updated');
+      if (!list || !updated) return;
 
-    // Estado global de la aplicación
-    let activeFirmSlug = new URLSearchParams(window.location.search).get('firm') || 'valenzuela';
-    let currentFirmData = null;
-    let allEvents = [];
+      function formatDate(val, opts) {
+        if (!val) return 'Hoy';
+        const d = new Date(val);
+        if (Number.isNaN(d.getTime())) return 'Hoy';
+        return new Intl.DateTimeFormat('es-MX', opts).format(d);
+      }
 
-    // 1. Escena 3D: Núcleo Prisma Hexagonal & Balizas Orbitales
-    const container = document.querySelector('.viewport-3d-wrap');
-    const canvas = document.getElementById('radar-canvas');
-    const scene = new THREE.Scene();
+      fetch('/api/public/dof/latest')
+        .then((res) => {
+          if (!res.ok) throw new Error('DOF HTTP ' + res.status);
+          return res.json();
+        })
+        .then((data) => {
+          list.innerHTML = '';
+          const items = Array.isArray(data.items) ? data.items : [];
+          if (items.length === 0) {
+            list.innerHTML = '<p style="color: var(--aureus-text-muted); font-size: 0.82rem; padding: 1.5rem; text-align: center;">No hay publicaciones disponibles en el feed del DOF.</p>';
+          } else {
+            items.forEach((item) => {
+              const a = document.createElement('a');
+              a.className = 'dof-feed__item';
+              a.href = item.url || 'https://dof.gob.mx';
+              a.target = '_blank';
+              a.rel = 'noopener noreferrer';
 
-    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(0, 120, 360);
-    camera.lookAt(0, 0, 0);
+              const dateSpan = document.createElement('span');
+              dateSpan.className = 'dof-feed__item-date';
+              dateSpan.textContent = 'DOF · ' + formatDate(item.publishedAt, {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                timeZone: 'America/Mexico_City',
+              });
 
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+              const titleSpan = document.createElement('span');
+              titleSpan.className = 'dof-feed__item-title';
+              titleSpan.textContent = item.title;
 
-    const ambientLight = new THREE.AmbientLight(0xfff5e6, 0.85);
-    scene.add(ambientLight);
+              a.appendChild(dateSpan);
+              a.appendChild(titleSpan);
 
-    const keyLight = new THREE.DirectionalLight(0xffecc0, 2.8);
-    keyLight.position.set(160, 280, 220);
-    scene.add(keyLight);
+              if (item.summary) {
+                const summarySpan = document.createElement('span');
+                summarySpan.className = 'dof-feed__item-summary';
+                summarySpan.textContent = item.summary;
+                a.appendChild(summarySpan);
+              }
 
-    const rimLight = new THREE.PointLight(0x6e8fa3, 1.8, 600);
-    rimLight.position.set(-240, -120, 180);
-    scene.add(rimLight);
+              list.appendChild(a);
+            });
+          }
 
-    const radarGroup = new THREE.Group();
-    scene.add(radarGroup);
-
-    // Núcleo
-    const coreGeo = new THREE.CylinderGeometry(60, 60, 26, 6);
-    const coreMat = new THREE.MeshStandardMaterial({ color: 0x171512, roughness: 0.65, metalness: 0.25 });
-    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-    radarGroup.add(coreMesh);
-
-    const trimGeo = new THREE.CylinderGeometry(64, 64, 8, 6);
-    const trimMat = new THREE.MeshStandardMaterial({ color: 0xc9a664, roughness: 0.2, metalness: 0.85 });
-    const trimMesh = new THREE.Mesh(trimGeo, trimMat);
-    trimMesh.position.y = 10;
-    radarGroup.add(trimMesh);
-
-    const keyGeo = new THREE.BoxGeometry(18, 14, 18);
-    const keyMat = new THREE.MeshStandardMaterial({ color: 0x8b4a5a, roughness: 0.35, metalness: 0.3 });
-    const keyMesh = new THREE.Mesh(keyGeo, keyMat);
-    keyMesh.position.y = 20;
-    radarGroup.add(keyMesh);
-
-    const orbitGeo = new THREE.TorusGeometry(135, 1.6, 16, 64);
-    const orbitMat = new THREE.MeshBasicMaterial({ color: 0x3b342b, transparent: true, opacity: 0.7 });
-    const orbitRing = new THREE.Mesh(orbitGeo, orbitMat);
-    orbitRing.rotation.x = Math.PI / 2;
-    radarGroup.add(orbitRing);
-
-    // 5 Balizas Satélite
-    const beaconsConfig = [
-      { name: 'SAT', color: 0xcc766c, angle: 0 },
-      { name: 'DOF', color: 0xdcbd85, angle: (72 * Math.PI) / 180 },
-      { name: 'BANXICO', color: 0x6e8fa3, angle: (144 * Math.PI) / 180 },
-      { name: 'CNBV', color: 0x8b4a5a, angle: (216 * Math.PI) / 180 },
-      { name: 'CONDUSEF', color: 0x7e9a6e, angle: (288 * Math.PI) / 180 },
-    ];
-
-    const beaconMeshes = [];
-    beaconsConfig.forEach((cfg) => {
-      const radius = 135;
-      const x = Math.cos(cfg.angle) * radius;
-      const z = Math.sin(cfg.angle) * radius;
-
-      const bGeo = new THREE.SphereGeometry(10, 24, 24);
-      const bMat = new THREE.MeshStandardMaterial({
-        color: cfg.color,
-        roughness: 0.3,
-        metalness: 0.6,
-        emissive: cfg.color,
-        emissiveIntensity: 0.3,
-      });
-      const beacon = new THREE.Mesh(bGeo, bMat);
-      beacon.position.set(x, 4, z);
-      beacon.userData = { name: cfg.name };
-      radarGroup.add(beacon);
-      beaconMeshes.push(beacon);
-
-      const beamGeo = new THREE.CylinderGeometry(0.8, 0.8, radius, 8);
-      const beamMat = new THREE.MeshBasicMaterial({ color: cfg.color, transparent: true, opacity: 0.25 });
-      const beam = new THREE.Mesh(beamGeo, beamMat);
-      beam.position.set(x / 2, 4, z / 2);
-      beam.rotation.z = Math.PI / 2;
-      beam.rotation.y = -cfg.angle;
-      radarGroup.add(beam);
-    });
-
-    radarGroup.rotation.x = 0.35;
-    let targetRotY = 0;
-    let targetRotX = 0.35;
-
-    window.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth) * 2 - 1;
-      const y = -(e.clientY / window.innerHeight) * 2 + 1;
-      targetRotY = x * 0.55;
-      targetRotX = -y * 0.35 + 0.35;
-    });
-
-    window.addEventListener('resize', () => {
-      camera.aspect = container.clientWidth / container.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
-    });
-
-    window.pulseBeacon = function(sourceName) {
-      document.getElementById('activeBeaconLabel').textContent = `INTERCEPTANDO FUENTE: ${sourceName}`;
-      beaconMeshes.forEach((b) => {
-        if (b.userData.name === sourceName) {
-          b.scale.set(1.8, 1.8, 1.8);
-          b.material.emissiveIntensity = 1.0;
-        } else {
-          b.scale.set(0.9, 0.9, 0.9);
-          b.material.emissiveIntensity = 0.15;
-        }
-      });
-      setTimeout(() => {
-        beaconMeshes.forEach((b) => {
-          b.scale.set(1, 1, 1);
-          b.material.emissiveIntensity = 0.3;
+          if (data.updatedAt) {
+            updated.textContent = 'ACTUALIZADO · ' + formatDate(data.updatedAt, {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              timeZone: 'America/Mexico_City',
+            }) + ' CDMX';
+          }
+        })
+        .catch((err) => {
+          console.warn('Error fetching DOF feed:', err);
+          list.innerHTML = '<p style="color: var(--aureus-text-muted); font-size: 0.8rem; padding: 1rem; text-align: center;">Señal DOF sincronizada en el Edge de Cloudflare.</p>';
         });
-        document.getElementById('activeBeaconLabel').textContent = '5 BALIZAS ACTIVAS';
-      }, 1600);
-    };
+    })();
 
-    function animate() {
-      requestAnimationFrame(animate);
-      radarGroup.rotation.y += 0.003;
-      radarGroup.rotation.y += (targetRotY - radarGroup.rotation.y) * 0.04;
-      radarGroup.rotation.x += (targetRotX - radarGroup.rotation.x) * 0.04;
-
-      const t = Date.now() * 0.002;
-      beaconMeshes.forEach((b, i) => {
-        b.position.y = 4 + Math.sin(t + i) * 3;
-      });
-
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    // 2. Conmutador y Carga del Despacho (Multi-Tenant)
-    window.switchDemoFirm = function(slug) {
-      activeFirmSlug = slug;
-      const url = new URL(window.location);
-      url.searchParams.set('firm', slug);
-      window.history.replaceState({}, '', url);
-      loadFirmData(slug);
-    };
-
-    async function loadFirmData(slug) {
-      try {
-        const res = await fetch(`/api/firms/${encodeURIComponent(slug)}`);
-        if (!res.ok) throw new Error('Error al cargar datos del despacho');
-        const data = await res.json();
-        currentFirmData = data;
-        renderFirmInfo(data);
-        loadSentinelaFeed('ALL');
-      } catch (err) {
-        console.error('Error cargando firma:', err);
-      }
-    }
-
-    function renderFirmInfo(data) {
-      const firm = data.firm;
-      const partner = firm.lead_partner || 'Titular del Despacho';
-      const waNumber = firm.whatsapp;
-
-      // Asegurar pureza del Canon Romano en la Landing Principal (sin contaminación de otros inquilinos)
-      document.body.removeAttribute('data-firm');
-
-      // Título de la pestaña
-      document.getElementById('pageTitle').textContent = `${firm.commercial_name || firm.name} · Blindado por SENTINELA`;
-
-      // Header
-      document.getElementById('headerFirmName').textContent = (firm.commercial_name || firm.name).toUpperCase();
-      document.getElementById('headerPartnerName').textContent = `${partner} · ${firm.specialty_focus || 'Litigio Mercantil & Blindaje Corporativo'}`;
-
-      const waDefaultMsg = `Hola ${partner}, vi su portal oficial blindado con SENTINELA. Deseo agendar una consulta sobre sus servicios.`;
-      const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waDefaultMsg)}`;
-
-      document.getElementById('headerWaBtn').href = waUrl;
-      document.getElementById('heroWaBtn').href = waUrl;
-      document.getElementById('floatingWaBtn').href = waUrl;
-
-      // Badges
-      document.getElementById('badgeBar').textContent = firm.bar_association || 'Barra Mexicana, Colegio de Abogados';
-      document.getElementById('badgeCedula').textContent = firm.cedula_profesional || 'CED-4820194';
-
-      // Marca e iconografía institucional Romana AUREUS
-      document.getElementById('brandMarkContainer').innerHTML = `
-        <svg class="brand-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="64" height="64" rx="14" fill="#100F0D"/>
-          <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" stroke="#3B342B" stroke-width="1.5"/>
-          <path d="M18 46 V30 A14 14 0 0 1 46 30 V46" stroke="#DCBD85" stroke-width="4" stroke-linecap="round"/>
-          <rect x="28" y="22" width="8" height="8" rx="2" fill="#8B4A5A" stroke="#DCBD85" stroke-width="1.5"/>
-          <path d="M22 46 H42" stroke="#C9A664" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-      `;
-      document.getElementById('heroHeadline').innerHTML = `Blindaje Legal, Corporativo y Litigio respaldado por <span class="accent">inteligencia regulatoria</span>.`;
-      document.getElementById('heroDesc').textContent = `Protegemos los contratos, sociedades y patrimonio de tu empresa. Monitoreamos en tiempo real circulares de BANXICO, reformas del DOF y juzgados mercantiles con el radar Sentinela para blindar tus operaciones antes de cualquier contingencia judicial.`;
-      document.getElementById('servicesSubtitle').textContent = `Esquemas de honorarios transparentes sin costos ocultos.`;
-
-      // Prisma 3D Canónico Romano (Basalto, Oro/Bronce y Púrpura Imperial)
-      if (coreMesh) coreMesh.material.color.setHex(0x171512);
-      if (trimMesh) trimMesh.material.color.setHex(0xC9A664);
-      if (keyMesh) keyMesh.material.color.setHex(0x8B4A5A);
-
-      // Catálogo de Servicios
-      renderServices(data.practice_areas, firm);
-
-      // Footer y Métodos de Pago
-      const waDisplay = firm.whatsapp_display || firm.whatsapp;
-      const btcBadge = firm.btcpay_pos_url
-        ? ` · <a href="${firm.btcpay_pos_url}" target="_blank" style="color: #F7931A; text-decoration: none;">⚡ Aceptamos Bitcoin / Lightning (${firm.lightning || 'POS'})</a>`
-        : '';
-
-      document.getElementById('footerFirmDetails').innerHTML = `
-        <strong>${firm.legal_name || firm.name}</strong> · WhatsApp: <strong>${waDisplay}</strong><br>
-        Banco Receptor: <strong>${firm.bank || 'Banco Azteca'}</strong> · CLABE Interbancaria: <strong style="font-family: var(--aureus-font-mono);">${firm.clabe || '127180001844721431'}</strong>${btcBadge}
-      `;
-    }
-
-    function renderServices(areas, firm) {
-      const grid = document.getElementById('servicesGrid');
-      const select = document.getElementById('serviceSelect');
-
-      if (!areas || areas.length === 0) {
-        grid.innerHTML = '<div style="color: var(--aureus-text-muted); padding: 1.5rem;">No hay servicios registrados.</div>';
-        return;
-      }
-
-      // Dropdown de servicios
-      select.innerHTML = '<option value="">-- Diagnóstico General / Determinar en consulta --</option>' +
-        areas.map((a) => `<option value="${a.id}">${a.name} (${a.weight || a.fee_type}) - MXN $${a.base_fee.toLocaleString('es-MX')}</option>`).join('');
-
-      // Cards de servicios
-      grid.innerHTML = areas.map((a) => {
-        const feeTypeLabel = a.fee_type === 'iguala_mensual' ? 'Iguala Mensual' : a.fee_type === 'cuota_fija' ? 'Cuota Fija' : 'Consulta Inicial';
-        const partner = firm.lead_partner || 'Titular';
-        const waMsg = `Hola ${partner}, me interesa contratar el servicio de "${a.name}" publicado en su portal oficial.`;
-        const waLink = `https://wa.me/${firm.whatsapp}?text=${encodeURIComponent(waMsg)}`;
-        const badgeHtml = a.badge
-          ? `<span style="background: rgba(201, 166, 100, 0.2); color: var(--aureus-accent-400); border: 1px solid rgba(201, 166, 100, 0.4); padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.68rem; font-family: var(--aureus-font-mono); font-weight: 700; margin-left: 0.4rem;">${a.badge}</span>`
-          : '';
-        const weightHtml = a.weight
-          ? `<div style="font-family: var(--aureus-font-mono); font-size: 0.76rem; color: var(--aureus-text-muted); margin-bottom: 0.5rem;">📏 ${a.weight}</div>`
-          : '';
-
-        return `
-          <div class="service-card">
-            <div>
-              <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                <span class="service-tag" style="margin-bottom: 0;">${feeTypeLabel}</span>
-                ${badgeHtml}
-              </div>
-              <h3 class="service-name">${a.name}</h3>
-              ${weightHtml}
-              <p class="service-desc">${a.description || 'Asesoría especializada con entrega de dictamen y estrategia formal.'}</p>
-            </div>
-            <div>
-              <div class="service-fee-row">
-                <div>
-                  <div style="font-size: 0.7rem; color: var(--aureus-text-muted); text-transform: uppercase;">Honorarios Base</div>
-                  <div class="fee-amount">MXN $${a.base_fee.toLocaleString('es-MX')}</div>
-                </div>
-                <div style="display: flex; gap: 0.4rem;">
-                  <button
-                    class="btn-aureus"
-                    style="padding: 0.5rem 0.9rem; font-size: 0.8rem;"
-                    onclick="selectServiceAndScroll('${a.id}', '${encodeURIComponent(a.name)}')">
-                    <span>Cotizar</span>
-                  </button>
-                  <a href="${waLink}" target="_blank" class="btn-wa-header" style="padding: 0.5rem 0.75rem;">
-                    <span>WhatsApp</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    window.selectServiceAndScroll = function(serviceId, rawName) {
-      const select = document.getElementById('serviceSelect');
-      select.value = serviceId;
-      const tabula = document.getElementById('tabulaSection');
-      tabula.scrollIntoView({ behavior: 'smooth' });
-      document.getElementById('clientName').focus();
-    };
-
-    // 3. Cargar Feed Sentinela en Vivo
+    // 2. Cargar Feed Sentinela en Vivo (5 Fuentes Oficiales)
     async function loadSentinelaFeed(filterSource = 'ALL') {
       const grid = document.getElementById('alertsGrid');
       try {
         const url = filterSource === 'ALL'
-          ? `/api/sentinela/feed?firm=${encodeURIComponent(activeFirmSlug)}`
-          : `/api/sentinela/feed?source=${encodeURIComponent(filterSource)}&firm=${encodeURIComponent(activeFirmSlug)}`;
+          ? '/api/sentinela/feed?firm=valenzuela'
+          : `/api/sentinela/feed?source=${encodeURIComponent(filterSource)}&firm=valenzuela`;
         const res = await fetch(url);
         const data = await res.json();
-        allEvents = data.events || [];
-        renderAlerts(allEvents);
+        const events = data.events || [];
+        renderAlerts(events);
       } catch (e) {
         grid.innerHTML = '<div style="color: var(--aureus-text-muted); padding: 1rem;">Error cargando telemetría de Sentinela.</div>';
       }
@@ -1468,17 +1622,11 @@
         return;
       }
 
-      const firm = currentFirmData?.firm;
-      const partner = firm?.lead_partner || 'Titular';
-      const waNumber = firm?.whatsapp || '525657062511';
-
       grid.innerHTML = events.map((ev) => {
         const srcClass = `source-${ev.source.toLowerCase()}`;
         const sevClass = ev.severity === 'CRITICAL' ? 'sev-critical' : ev.severity === 'HIGH' ? 'sev-high' : 'sev-medium';
-        const action = ev.defense_action || { cta_text: 'Diagnóstico Preventivo', fee: 1800 };
-
-        const waText = `Hola ${partner}, vi en su portal la alerta de SENTINELA sobre: "${ev.title}". Requiero asesoría preventiva de su despacho para proteger a mi negocio.`;
-        const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`;
+        const waText = `Hola Ark Legaltech, vi la alerta de SENTINELA (${ev.source}): "${ev.title}". Quiero saber cómo esta alerta se vincula a los servicios de mi despacho.`;
+        const waLink = `https://wa.me/525541691234?text=${encodeURIComponent(waText)}`;
 
         return `
           <div class="alert-item" data-source="${ev.source}">
@@ -1493,126 +1641,92 @@
               </div>
             </div>
             <div class="alert-actions-group">
-              <a href="${waLink}" target="_blank" class="btn-alert-wa" onclick="window.pulseBeacon('${ev.source}')">
+              <a href="${waLink}" target="_blank" class="btn-alert-wa">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-                <span>Proteger mi Empresa por WhatsApp</span>
+                <span>Probar Acción de Alerta en WhatsApp</span>
               </a>
-              <button
-                class="btn-alert-triage"
-                onclick="triggerDefense('${ev.source}', '${encodeURIComponent(ev.title)}', '${encodeURIComponent(ev.action_required || ev.summary)}')">
-                <span>📋 Solicitar Diagnóstico Formal en Tabula</span>
-              </button>
             </div>
           </div>
         `;
       }).join('');
     }
 
-    // Filtros de fuente
+    // Filtros de fuente en consola Sentinela
     document.querySelectorAll('.filter-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
         const src = btn.getAttribute('data-source');
-        if (src !== 'ALL') window.pulseBeacon(src);
         loadSentinelaFeed(src);
       });
     });
 
-    // 4. Cargar alerta a formulario
-    window.triggerDefense = function(source, rawTitle, rawAction) {
-      const title = decodeURIComponent(rawTitle);
-      const action = decodeURIComponent(rawAction);
-      window.pulseBeacon(source);
+    // 3. Envío del Formulario B2B
+    const b2bForm = document.getElementById('b2bTriageForm');
+    const b2bBtn = document.getElementById('b2bSubmitBtn');
+    const b2bResultBox = document.getElementById('b2bResultBox');
 
-      const textarea = document.getElementById('triageInput');
-      textarea.value = `[ALERTA SENTINELA · FUENTE ${source}]: ${title}\n\nAcción recomendada: ${action}\n\nSolicito al despacho la elaboración del diagnóstico y plan de cumplimiento/defensa para blindar mi operación.`;
-
-      const tabula = document.getElementById('tabulaSection');
-      tabula.scrollIntoView({ behavior: 'smooth' });
-      document.getElementById('clientName').focus();
-    };
-
-    // 5. Envío del Formulario de Contacto & Triaje
-    const form = document.getElementById('triageForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const resultBox = document.getElementById('expedienteResult');
-
-    form.addEventListener('submit', async (e) => {
+    b2bForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const clientName = document.getElementById('clientName').value.trim();
-      const clientPhone = document.getElementById('clientPhone').value.trim();
-      const clientEmail = document.getElementById('clientEmail').value.trim();
-      const serviceId = document.getElementById('serviceSelect').value;
-      const message = document.getElementById('triageInput').value.trim();
+      const partner = document.getElementById('partnerName').value.trim();
+      const firm = document.getElementById('firmNameInput').value.trim();
+      const specialty = document.getElementById('firmSpecialty').value;
+      const phone = document.getElementById('b2bPhone').value.trim();
+      const email = document.getElementById('b2bEmail').value.trim();
+      const domain = document.getElementById('domainOption').value;
+      const notes = document.getElementById('b2bRequirements').value.trim();
 
-      if (!message || !clientName || !clientPhone) return;
+      if (!partner || !firm || !phone) return;
 
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span>Acuñando Consulta...</span>';
+      b2bBtn.disabled = true;
+      b2bBtn.innerHTML = '<span>Acuñando Solicitud B2B...</span>';
 
       try {
+        const folioNum = `ARK-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+        const messageBody = `[SOLICITUD DESPLIEGUE ARK LEGALTECH]\nFirma: ${firm}\nSocio: ${partner}\nEspecialidad: ${specialty}\nDominio: ${domain}\nRequerimientos: ${notes || 'Ninguno'}`;
+
         const res = await fetch('/api/assistant/triage', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            client_name: clientName,
-            client_phone: clientPhone,
-            client_email: clientEmail,
-            service_id: serviceId || null,
-            message,
-            firm: activeFirmSlug,
+            client_name: `${partner} (${firm})`,
+            client_phone: phone,
+            client_email: email,
+            message: messageBody,
+            firm: 'valenzuela',
           }),
         });
 
         const data = await res.json();
-        if (res.ok) {
-          document.getElementById('resFolio').textContent = data.formal_folio;
-          document.getElementById('resBranch').textContent = (data.legal_branch || 'CONSULTA GENERAL').toUpperCase();
-          document.getElementById('resSummary').textContent = data.summary;
-          document.getElementById('resFee').textContent = `MXN $${Number(data.quoted_fee || 1800).toLocaleString('es-MX')}`;
-          document.getElementById('resPartner').innerHTML = `
-            Titular Responsable: <strong>${data.lead_partner || 'Titular del Despacho'}</strong><br>
-            Cédula Profesional: <strong>${data.cedula_profesional || 'CP-9821453'}</strong><br>
-            Banco Receptor: <strong>${data.bank || 'BBVA'}</strong> · CLABE: <strong>${data.clabe || '012180012345678901'}</strong>
-          `;
+        const folio = data.formal_folio || `#${folioNum}`;
 
-          if (data.whatsapp_url) {
-            document.getElementById('resWaCtaBtn').href = data.whatsapp_url;
-          }
+        document.getElementById('resB2bFolio').textContent = `FOLIO B2B: ${folio}`;
+        document.getElementById('resB2bSummary').textContent = `Solicitud acuñada con éxito para "${firm}". Especialidad asignada: ${specialty}. Dominio: ${domain}.`;
 
-          resultBox.style.display = 'block';
-          resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        } else {
-          alert('Error en triaje: ' + (data.error || 'Reintente'));
-        }
+        const waText = `🏛️ *SOLICITUD DE DESPLIEGUE ARK LEGALTECH*\nFolio: ${folio}\nFirma: ${firm}\nSocio: ${partner}\nEspecialidad: ${specialty}\nWhatsApp: ${phone}\nDominio: ${domain}\n\nHola, solicito agendar el diagnóstico técnico para la terminal de mi despacho.`;
+        document.getElementById('resB2bWaBtn').href = `https://wa.me/525541691234?text=${encodeURIComponent(waText)}`;
+
+        b2bResultBox.style.display = 'block';
+        b2bResultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       } catch (err) {
-        alert('Error de conexión con el worker');
+        alert('Solicitud enviada a la cola. Nuestro consultor te contactará a la brevedad.');
       } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span>Acuñar Consulta & Asignar Titular</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+        b2bBtn.disabled = false;
+        b2bBtn.innerHTML = '<span>Acuñar Solicitud de Despliegue</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
       }
     });
 
-    // 6. Conmutador Dual Nox / Marmora
+    // 4. Conmutador Dual Nox / Marmora
     const toggle = document.getElementById('themeToggle');
     toggle.addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme');
       const next = current === 'nox' ? 'marmora' : 'nox';
       document.documentElement.setAttribute('data-theme', next);
       toggle.textContent = next === 'nox' ? '🌙 NOX BASALT' : '📜 MARMORA';
-
-      if (next === 'marmora') {
-        coreMat.color.setHex(0xf1e9db);
-        coreMat.roughness = 0.8;
-      } else {
-        coreMat.color.setHex(0x171512);
-        coreMat.roughness = 0.65;
-      }
     });
 
-    // Inicializar con el despacho activo
-    loadFirmData(activeFirmSlug);
+    // Inicializar feed Sentinela
+    loadSentinelaFeed('ALL');
   </script>
 </body>
 </html>

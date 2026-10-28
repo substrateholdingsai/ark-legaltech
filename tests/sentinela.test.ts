@@ -146,4 +146,23 @@ describe('Sentinela RegTech Feed & Webhook Ingestion', () => {
     expect(body.matched_practice_area).toBe('srv_cont_01');
     expect(insertedEvent).toBe(true);
   });
+
+  it('GET /api/public/dof/latest debe devolver items del DOF con formato estructurado', async () => {
+    const mockEnv = {
+      CACHE: {
+        get: vi.fn(async () => null),
+        put: vi.fn(async () => {}),
+      },
+    } as unknown as Env;
+
+    const req = new Request('https://legal.arksystems.site/api/public/dof/latest');
+    const res = await app.fetch(req, mockEnv);
+    expect(res.status).toBe(200);
+    const body = await res.json() as { items: Array<{ title: string; url: string; summary: string }>; updatedAt: string };
+    expect(Array.isArray(body.items)).toBe(true);
+    expect(body.items.length).toBeGreaterThan(0);
+    expect(body.items[0]).toHaveProperty('title');
+    expect(body.items[0]).toHaveProperty('url');
+    expect(typeof body.updatedAt).toBe('string');
+  });
 });

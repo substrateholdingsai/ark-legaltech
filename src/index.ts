@@ -8,6 +8,7 @@ import assistant from './routes/assistant';
 import webhook from './routes/webhook_wa';
 import admin from './routes/admin';
 import sentinela from './routes/sentinela';
+import { DOF_RSS_URL, parseDofFeed, FALLBACK_DOF_ITEMS, type DofFeedItem } from './utils/dof';
 
 export type AppVariables = {
   tenant: TenantContext | null;
@@ -67,7 +68,49 @@ app.get('/api/tenant/current', (c) => {
   });
 });
 
-// 5. Root Entrypoint: sirve la Landing Page interactiva AUREUS desde public/
+// 5. Endpoint público de feed del Diario Oficial de la Federación (DOF)
+app.get('/api/public/dof/latest', async (c) => {
+  const cacheKey = 'public:dof:latest:v1';
+  if (c.env.CACHE) {
+    try {
+      const cached = await c.env.CACHE.get(cacheKey);
+      if (cached) {
+        const payload = JSON.parse(cached);
+        if (Array.isArray(payload.items)) {
+          return c.json(payload, 200, { 'Cache-Control': 'public, max-age=300' });
+        }
+      }
+    } catch {
+      // ignore cache failure
+    }
+  }
+
+  let items: DofFeedItem[] = [];
+  try {
+    const res = await fetch(DOF_RSS_URL, { headers: { 'User-Agent': 'Ark-Legaltech/1.0 (Sentinela)' } });
+    if (res.ok) {
+      const xml = await res.text();
+      items = parseDofFeed(xml).slice(0, 5);
+    }
+  } catch {
+    items = [];
+  }
+
+  if (items.length === 0) {
+    items = FALLBACK_DOF_ITEMS;
+  }
+
+  const payload = { items, updatedAt: new Date().toISOString() };
+  if (c.env.CACHE) {
+    try {
+      await c.env.CACHE.put(cacheKey, JSON.stringify(payload), { expirationTtl: 300 });
+    } catch {}
+  }
+
+  return c.json(payload, 200, { 'Cache-Control': 'public, max-age=300' });
+});
+
+// 6. Root Entrypoint: sirve la Landing Page interactiva AUREUS desde public/
 app.get('/', async (c) => {
   if (c.env.ASSETS) {
     return c.env.ASSETS.fetch(c.req.raw);
